@@ -21,24 +21,23 @@
 */
 declare(strict_types=1);
 
-namespace App\Controller;
-
-use Aether\Auth\User\UserInstance;
-use Aether\Session\SessionInstance;
-use Aether\View\ViewInstance;
+namespace Aether\View;
 
 
-class AppController {
+interface ViewInterface {
+
 
     /**
-     * [@method] => GET
-     * [@route] => /
+     * Render the provided view with extracted params
      */
-    public function index(){
-        ViewInstance::_make("index", [
-            "loggedin" => UserInstance::_isLoggedIn(),
-            "sessid" => (new SessionInstance())->_getMetadata()->_getSessId(),
-        ]);
-    }
+    public function _render();
 
+
+    /**
+     * Static function used to instantiate the class easily (i should implement this everywhere lol)
+     *
+     * @param string $path
+     * @param array $vars
+     */
+    public static function _make(string $path, array $vars);
 }

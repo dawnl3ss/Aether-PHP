@@ -21,24 +21,42 @@
 */
 declare(strict_types=1);
 
-namespace App\Controller;
-
-use Aether\Auth\User\UserInstance;
-use Aether\Session\SessionInstance;
-use Aether\View\ViewInstance;
+namespace Aether\View;
 
 
-class AppController {
+final class ViewInstance implements  ViewInterface {
 
-    /**
-     * [@method] => GET
-     * [@route] => /
-     */
-    public function index(){
-        ViewInstance::_make("index", [
-            "loggedin" => UserInstance::_isLoggedIn(),
-            "sessid" => (new SessionInstance())->_getMetadata()->_getSessId(),
-        ]);
+    /** @var string $_path */
+    private string $_path;
+
+    /** @var array $_vars */
+    private array $_vars;
+
+    public function __construct(string $path, array $vars){
+        $this->_path = $path;
+        $this->_vars = $vars;
     }
 
+    public function _render(){
+        # - We extract and translate data from self::$_vars into php variables
+        extract($this->_vars, EXTR_SKIP);
+
+        $fullpath = "public/" . $this->_path . ".php";
+
+        if (!file_exists($fullpath))
+            die("[View] - Error - Template not found : {$fullpath}");
+
+        # - We turn output bufferin on and we include the given view page
+        ob_start();
+        require_once $fullpath;
+    }
+
+
+    /**
+     * @param string $path
+     * @param array $vars
+     */
+    public static function _make(string $path, array $vars){
+        (new self($path, $vars))->_render();
+    }
 }
