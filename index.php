@@ -25,5 +25,5 @@ declare(strict_types=1);
 # - Autoload
 require_once __DIR__ . '/autoload.php';
 
-# - Init Core
+# - Core init
 \Aether\Aether::_init();

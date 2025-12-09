@@ -35,6 +35,12 @@ spl_autoload_register(function ($class){
         $file = __DIR__ . '/app/' . str_replace('\\', '/', $class) . '.php';
         if (file_exists($file)) require_once $file;
     }
+
+    # - Testing folder
+    if (str_starts_with($class, 'testing\\')) {
+        $file = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+        if (file_exists($file)) require_once $file;
+    }
 });
 
 

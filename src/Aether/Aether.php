@@ -48,7 +48,7 @@ class Aether {
     public static function _init(){
 
         # - Dev Env-related
-        if (self::$_globalAppState === "DEV"){
+        if (self::$_globalAppState == "DEV"){
             error_reporting(E_ALL);
             ini_set('display_errors', 1);
         }
