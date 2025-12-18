@@ -16,7 +16,7 @@
  *
  *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
  *  Source available • Commercial license required for redistribution
- *  → github.com/dawnl3ss/Aether-PHP
+ *  → https://github.com/dawnl3ss/Aether-PHP
  *
 */
 declare(strict_types=1);
@@ -34,7 +34,7 @@ use Aether\Router\ControllerGateway;
  * Easy to incorporate in SaaS, Webapps, REST APIs...
  *
  * Made by : Dawnless (Alexandre VOISIN)
- * → https://linkedin
+ * → https://www.linkedin.com/in/alexvsn/
  * → https://dawnless.me
  * → https://hardware-hub.fr
  *

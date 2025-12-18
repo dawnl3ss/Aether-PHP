@@ -21,19 +21,32 @@
 */
 declare(strict_types=1);
 
-
-# - Autoload
-require_once __DIR__ . '/autoload.php';
-
-# - Core init
-\Aether\Aether::_init();
+namespace Aether\IO\Parser;
 
 
+class JsonParser implements ParserInterface {
+
+    /**
+     * @param mixed $_data
+     *
+     * @return string
+     */
+    public function _encode(mixed $_data) : string {
+        return json_encode($_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE) . PHP_EOL;
+    }
 
 
+    /**
+     * @param string $_content
+     *
+     * @return mixed
+     */
+    public function _decode(string $_content) : mixed {
+        $data = json_decode($_content, true);
 
-$s = \Aether\IO\IOStream::_open(\Aether\IO\IOTypeEnum::TEXT, "text.txt");
+        if (json_last_error() !== JSON_ERROR_NONE)
+            return null;
 
-echo "<pre>";
-var_dump($s->_write("test"));
-echo "</pre>";
+        return $data;
+    }
+}

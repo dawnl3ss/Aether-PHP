@@ -21,19 +21,16 @@
 */
 declare(strict_types=1);
 
-
-# - Autoload
-require_once __DIR__ . '/autoload.php';
-
-# - Core init
-\Aether\Aether::_init();
+namespace Aether\IO;
 
 
+enum IOTypeEnum : string {
 
+    case TEXT = 'text';
+    case JSON = 'json';
+    case YAML = 'yaml';
+    case ENV  = 'env';
+    case CSV  = 'csv';
+    case OTHER  = 'other';
 
-
-$s = \Aether\IO\IOStream::_open(\Aether\IO\IOTypeEnum::TEXT, "text.txt");
-
-echo "<pre>";
-var_dump($s->_write("test"));
-echo "</pre>";
+}
