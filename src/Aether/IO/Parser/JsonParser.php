@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace Aether\IO\Parser;
 
 
-class JsonParser implements ParserInterface {
+final class JsonParser implements ParserInterface {
 
     /**
      * @param mixed $_data

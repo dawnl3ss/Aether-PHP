@@ -21,19 +21,47 @@
 */
 declare(strict_types=1);
 
-
-# - Autoload
-require_once __DIR__ . '/autoload.php';
-
-# - Core init
-\Aether\Aether::_init();
+namespace Aether\IO\Parser;
 
 
+final class EnvParser implements ParserInterface {
+
+    /**
+     * @param mixed $_data
+     *
+     * @return string
+     */
+    public function _encode(mixed $_data) : string {
+        if (!is_array($_data))
+            return '';
+
+        $lines = [];
+
+        foreach ($_data as $key => $value){
+            $value = is_array($value) ? json_encode($value) : $value;
+            var_dump($key);
+            var_dump($value);
+            $lines[] = $key . '=' . $value;
+        }
+        return implode(PHP_EOL, $lines) . PHP_EOL;
+    }
 
 
+    /**
+     * @param string $_content
+     *
+     * @return mixed
+     */
+    public function _decode(string $_content) : mixed {
+        $lines = array_filter(array_map('trim', explode(PHP_EOL, $_content)));
+        $env = [];
 
-$s = \Aether\IO\IOStream::_open(\Aether\IO\IOTypeEnum::ENV, ".env");
-
-echo "<pre>";
-var_dump($s->_readDecoded());
-echo "</pre>";
+        foreach ($lines as $line){
+            if (str_contains($line, '=')){
+                [$key, $value] = explode('=', $line, 2);
+                $env[trim($key)] = trim($value, '"\'');
+            }
+        }
+        return $env;
+    }
+}

@@ -23,6 +23,7 @@ declare(strict_types=1);
 
 namespace Aether\IO;
 
+use Aether\IO\Parser\EnvParser;
 use Aether\IO\Parser\JsonParser;
 use Aether\IO\Parser\ParserInterface;
 
@@ -47,6 +48,7 @@ final class IOStream {
     private function _getParser() : ParserInterface {
         return match ($this->_type){
             IOTypeEnum::JSON => new JsonParser(),
+            IOTypeEnum::ENV => new EnvParser(),
 
             default => new class implements ParserInterface {
                 public function _encode(mixed $data) : string { return is_string($data) ? $data : var_export($data, true); }
