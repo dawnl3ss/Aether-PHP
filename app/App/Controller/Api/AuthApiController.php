@@ -23,7 +23,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use Aether\Api\Format\HttpPostParameterUnpacker;
+use Aether\Api\Format\HttpParameterUnpacker;
 use Aether\Api\Format\JsonResponse;
 use Aether\Auth\Gateway\LoginAuthGateway;
 use Aether\Auth\Gateway\LogoutAuthGateway;
@@ -47,7 +47,7 @@ class AuthApiController {
      * [@route] => /api/v1/auth/login
      */
     public function login(){
-        $http_params = new HttpPostParameterUnpacker();
+        $http_params = new HttpParameterUnpacker();
 
         $email = $http_params->_getAttribute("email") == false ? "" : $http_params->_getAttribute("email");
         $password = $http_params->_getAttribute("password") == false ? "" : $http_params->_getAttribute("password");
@@ -87,7 +87,7 @@ class AuthApiController {
      * [@route] => /api/v1/auth/register
      */
     public function register(){
-        $http_params = new HttpPostParameterUnpacker();
+        $http_params = new HttpParameterUnpacker();
 
         $username = $this->_sanitizeInput($http_params->_getAttribute("username") == false ? "" : $http_params->_getAttribute("username"));
         $email = $http_params->_getAttribute("email") == false ? "" : $http_params->_getAttribute("email");

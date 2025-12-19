@@ -24,7 +24,7 @@ declare(strict_types=1);
 namespace Aether\Api\Format;
 
 
-class HttpPostParameterUnpacker {
+class HttpParameterUnpacker {
 
     /** @var array $_decoded */
     private array $_decoded;

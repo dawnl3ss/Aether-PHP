@@ -190,7 +190,7 @@ declare(strict_types=1);
 namespace App\Controller\Api;
 
 use Aether\Api\Format\JsonResponse;
-use Aether\Api\Format\HttpPostParameterUnpacker;
+use Aether\Api\Format\HttpParameterUnpacker;
 
 class ProductApiController {
     
@@ -222,7 +222,7 @@ class ProductApiController {
      * [@route] => /api/v1/products/create
      */
     public function create() {
-        $params = new HttpPostParameterUnpacker();
+        $params = new HttpParameterUnpacker();
         $name = $params->_getAttribute("name");
         
         $response = new JsonResponse();
