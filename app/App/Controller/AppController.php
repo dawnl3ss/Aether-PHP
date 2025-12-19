@@ -39,6 +39,7 @@ class AppController {
             "loggedin" => UserInstance::_isLoggedIn(),
             "sessid" => (new SessionInstance())->_getMetadata()->_getSessId(),
         ]);
+        var_dump((new SessionInstance())->_getUser()->_isAdmin());
     }
 
 }

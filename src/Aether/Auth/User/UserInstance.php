@@ -45,7 +45,7 @@ class UserInstance extends PermissionLayer implements UserInterface {
         $this->_uid = $uid;
         $this->_username = $username;
         $this->_email = $email;
-        $this->_perms = json_decode($_perms, true);
+        $this->_perms = $this->_serialize($_perms);
     }
 
     /**
@@ -76,11 +76,6 @@ class UserInstance extends PermissionLayer implements UserInterface {
     public function _getEmail() : string { return $this->_sanitizeInput($this->_email); }
 
     /**
-     * @return bool
-     */
-    public function _isAdmin() : bool { return $this->_hasPerm(PermissionEnum::PERM_ADMIN); }
-
-    /**
      * @param mixed $_perm
      *
      * @return bool
@@ -107,5 +102,11 @@ class UserInstance extends PermissionLayer implements UserInterface {
      * @return array
      */
     public function _getPerms() : array { return $this->_perms; }
+
+
+    /**
+     * @return bool
+     */
+    public function _isAdmin() : bool { return $this->_hasPerm(PermissionEnum::PERM_ADMIN); }
 
 }

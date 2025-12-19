@@ -23,12 +23,8 @@ declare(strict_types=1);
 
 namespace Aether;
 
-
-use Aether\Auth\Gateway\LoginAuthGateway;
-use Aether\Auth\User\Permission\PermissionEnum;
 use Aether\Config\ProjectConfig;
 use Aether\Router\ControllerGateway;
-use Aether\Session\SessionInstance;
 
 
 /*

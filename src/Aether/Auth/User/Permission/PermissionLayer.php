@@ -68,4 +68,10 @@ class PermissionLayer {
      */
     private function _stringify() : string { return json_encode($this->_perms); }
 
+    /**
+     * @param string $_data
+     *
+     * @return array
+     */
+    protected function _serialize(string $_data) : array { return json_decode($_data, true); }
 }
