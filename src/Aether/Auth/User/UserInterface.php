@@ -50,7 +50,6 @@ interface UserInterface {
 
     /**
      * Check User's permissions : used for admin check ups and user backend-related operations
-     * #TODO : Create Permission system
      *
      * @param mixed $_perm
      *
@@ -60,13 +59,12 @@ interface UserInterface {
 
     /**
      * Add permission to a User
-     * #TODO : Create Permission system
      *
      * @param mixed $_perm
      *
      * @return UserInstance
      */
-    public function _setPerm(mixed $_perm) : UserInstance;
+    public function _addPerm(mixed $_perm) : UserInstance;
 
     /**
      * Get User's permissions : used for admin check ups and user backend-related operations
@@ -76,6 +74,8 @@ interface UserInterface {
     public function _getPerms() : array;
 
     /**
+     * Check if User is admin
+     *
      * @return bool
      */
     public function _isAdmin() : bool;

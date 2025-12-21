@@ -52,4 +52,11 @@ interface SessionInterface {
      */
     public function _getAppdata() : ?SessionAppdata;
 
+    /**
+     *  Getter function that permits to instantiate the class easily
+     *
+     * @return SessionInstance
+     */
+    public static function _get() : SessionInstance;
+
 }

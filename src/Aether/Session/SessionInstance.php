@@ -117,10 +117,18 @@ class SessionInstance implements SessionInterface {
      */
     public static function _addHttpSess(string $key, $value){
         # - Check if $value is an object and if yes we serialize it, we never know...
-        # - permits free use of the func in the whole core while benefiting of a "centralized" datatype switching.
+        # - permits free use of the func in the whole core while benefiting of a "centralized" datatype.
         if (is_object($value))
             $value = serialize($value);
 
         $_SESSION[$key] = $value;
+    }
+
+
+    /**
+     * @return SessionInstance
+     */
+    public static function _get() : SessionInstance {
+        return new self();
     }
 }

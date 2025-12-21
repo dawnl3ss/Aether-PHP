@@ -27,7 +27,6 @@ use Aether\Config\ProjectConfig;
 use Aether\Middleware\Pipeline;
 use Aether\Middleware\Stack\CsrfMiddleware;
 use Aether\Router\ControllerGateway;
-use Aether\Session\SessionInstance;
 
 
 /*

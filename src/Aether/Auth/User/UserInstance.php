@@ -26,6 +26,7 @@ namespace Aether\Auth\User;
 use Aether\Auth\User\Permission\PermissionEnum;
 use Aether\Auth\User\Permission\PermissionLayer;
 use Aether\Security\UserInputValidatorTrait;
+use Aether\Session\SessionInstance;
 
 
 class UserInstance extends PermissionLayer implements UserInterface {
@@ -86,15 +87,29 @@ class UserInstance extends PermissionLayer implements UserInterface {
 
     /**
      * @param mixed $_perm
-     * @param int $uid
      *
      * @return UserInstance
      */
-    public function _setPerm(mixed $_perm) : UserInstance {
+    public function _addPerm(mixed $_perm) : UserInstance {
         if ($this->_hasPerm($_perm))
             return $this;
 
         $this->_setPermission($_perm, $this->_getUid());
+        $this->_update();
+        return $this;
+    }
+
+    /**
+     * @param mixed $_perm
+     *
+     * @return UserInstance
+     */
+    public function _removePerm(mixed $_perm) : UserInstance {
+        if (!$this->_hasPerm($_perm))
+            return $this;
+
+        $this->_deletePermission($_perm, $this->_getUid());
+        $this->_update();
         return $this;
     }
 
@@ -109,4 +124,8 @@ class UserInstance extends PermissionLayer implements UserInterface {
      */
     public function _isAdmin() : bool { return $this->_hasPerm(PermissionEnum::PERM_ADMIN); }
 
+    /**
+     * Update User's instance in session
+     */
+    private function _update(){ SessionInstance::_addHttpSess("user", serialize($this)); }
 }

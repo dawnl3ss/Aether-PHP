@@ -23,19 +23,19 @@ declare(strict_types=1);
 
 namespace Aether\Auth\User\Permission;
 
-
 use Aether\Config\ProjectConfig;
 use Aether\Modules\Database\DatabaseWrapper;
 use Aether\Modules\Database\Drivers\DatabaseDriverEnum;
 
+
 class PermissionLayer {
 
-    /** @var array $_perms */
+    /** @var string[] $_perms */
     protected array $_perms;
 
 
     /**
-     * @param string $_perm
+     * @param mixed $_perm
      *
      * @return bool
      */
@@ -48,11 +48,36 @@ class PermissionLayer {
 
     /**
      * @param mixed $_perm
+     * @param int $uid
      *
      * @return PermissionLayer
      */
     protected function _setPermission(mixed $_perm, int $uid) : PermissionLayer {
+        if (!is_string($_perm))
+            $_perm = $_perm->value;
+
         array_push($this->_perms, $_perm);
+
+        (new DatabaseWrapper(ProjectConfig::_get("AUTH_DATABASE_GATEWAY"), DatabaseDriverEnum::MYSQL))->_update(
+            "users",
+            ["perms" => $this->_stringify()],
+            ["uid" => $uid]
+        );
+        return $this;
+    }
+
+    /**
+     * @param mixed $_perm
+     * @param int $uid
+     *
+     * @return PermissionLayer
+     */
+    protected function _deletePermission(mixed $_perm, int $uid) : PermissionLayer {
+        if (!is_string($_perm))
+            $_perm = $_perm->value;
+
+        $this->_perms = array_filter($this->_perms, fn($_p) => $_p !== $_perm);
+
         (new DatabaseWrapper(ProjectConfig::_get("AUTH_DATABASE_GATEWAY"), DatabaseDriverEnum::MYSQL))->_update(
             "users",
             ["perms" => $this->_stringify()],
@@ -69,6 +94,8 @@ class PermissionLayer {
     private function _stringify() : string { return json_encode($this->_perms); }
 
     /**
+     * Serialize permissions string (json_decode) to decode it from the database
+     *
      * @param string $_data
      *
      * @return array
