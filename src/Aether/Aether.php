@@ -26,7 +26,11 @@ namespace Aether;
 use Aether\Config\ProjectConfig;
 use Aether\Middleware\Pipeline;
 use Aether\Middleware\Stack\CsrfMiddleware;
+use Aether\Modules\AetherModule;
+use Aether\Modules\ModuleFactory;
 use Aether\Router\ControllerGateway;
+
+use Aether\Modules\I18n\I18N;
 
 
 /*
@@ -74,8 +78,15 @@ class Aether {
         ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 10);
         session_start();
 
+
+
         # - Middleware
         Pipeline::_run([ CsrfMiddleware::class ], function (){
+            # - Modules load
+            ModuleFactory::_load([
+                I18N::class
+            ]);
+
             # - Router Gateway : deliver correct controller for each route
             (new ControllerGateway())->_link();
         });

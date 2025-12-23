@@ -24,25 +24,48 @@ declare(strict_types=1);
 namespace Aether\Modules;
 
 
-class AetherModule extends ModuleFactory {
+abstract class AetherModule extends ModuleFactory implements ModuleInterface {
+
+    /** @var string $_name */
+    protected string $_name;
+
+    /** @var float $_version */
+    protected float $_version;
+
+    /** @var string $_description */
+    protected string $_description;
+
 
     public function __construct(string $_name, float $_version, string $_description){
-        parent::__construct($_name, $_version, $_description);
-    }
-
-
-    public function _onLoad(){
-        return true;
+        $this->_name = $_name;
+        $this->_version = $_version;
+        $this->_description = $_description;
     }
 
     /**
-     * @param string $_name
-     * @param float $_version
-     * @param string $_description
-     *
-     * @return self
+     * @return string
      */
-    public static function _make(string $_name, float $_version, string $_description){
-        return new self($_name, $_version, $_description);
-    }
+    public function _getName() : string { return $this->_name; }
+
+    /**
+     * @return float
+     */
+    public function _getVersion() : float { return $this->_version; }
+
+    /**
+     * @return string
+     */
+    public function _getDescription() : string { return $this->_description; }
+
+
+    /**
+     * Function triggered on Aether Core loading
+     */
+    abstract public function _onLoad();
+
+
+    /**
+     * @return AetherModule
+     */
+    abstract public static function _make() : AetherModule;
 }

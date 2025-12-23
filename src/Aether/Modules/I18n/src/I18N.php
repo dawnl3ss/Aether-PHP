@@ -21,36 +21,26 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Modules;
+namespace Aether\Modules\I18n;
+
+use Aether\Modules\AetherModule;
 
 
-abstract class ModuleFactory {
+final class I18N extends AetherModule {
 
 
-    /**
-     * Function triggered when Aether Core is initialized
-     * Scan all modules and trigger _onLoad()
-     *
-     * @param array $_modules
-     */
-    public static function _load(array $_modules) : void {
+    public function __construct(){
+        parent::__construct("I18n Module", 1.0, "Permits you to translate text in multiple languages");
+    }
 
-        foreach ($_modules as $module){
-            $class = new $module();
-
-            if (!$class instanceof AetherModule){
-                echo "[ModuleFactory] - Error - {$module} does not implement AetherModule.";
-                die();
-            }
-            $class->_onLoad();
-        }
+    public function _onLoad(){
+        echo "Loaded<br>";
     }
 
     /**
-     * Permits to easily instantiate the class
-     *
      * @return AetherModule
      */
-    abstract public static function _make() : AetherModule;
-
+    public static function _make() : AetherModule {
+        return new self();
+    }
 }
