@@ -47,7 +47,6 @@ final class ViewInstance implements  ViewInterface {
             die("[View] - Error - Template not found : {$fullpath}");
 
         # - We turn output bufferin on and we include the given view page
-
         require_once $fullpath;
     }
 

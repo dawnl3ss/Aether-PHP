@@ -4,12 +4,15 @@ namespace testing;
 
 class BootTimeTest {
 
-    public static function _wrap(callable $callback) {
+    /**
+     * Wrapped function to compute callable's boot time (ms)
+     *
+     * @param callable $_main
+     * @return float
+     */
+    public static function _wrap(callable $_main) : float {
         $boot_start = hrtime(true);
-
-        call_user_func($callback);
-
+        call_user_func($_main);
         return round((hrtime(true) - $boot_start) / 1e6, 5);
     }
-
 }
