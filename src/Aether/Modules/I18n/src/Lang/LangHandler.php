@@ -16,75 +16,61 @@
  *
  *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
  *  Source available • Commercial license required for redistribution
- *  → https://github.com/dawnl3ss/Aether-PHP
+ *  → github.com/dawnl3ss/Aether-PHP
  *
 */
 declare(strict_types=1);
 
-namespace Aether;
+namespace Aether\Modules\I18n\Lang;
 
-use Aether\Config\ProjectConfig;
-use Aether\Middleware\Pipeline;
-use Aether\Middleware\Stack\CsrfMiddleware;
-use Aether\Router\ControllerGateway;
 
-use Aether\Modules\ModuleFactory;
-use Aether\Modules\I18n\I18N;
+use Aether\IO\IOFile;
+use Aether\IO\IOTypeEnum;
 
-/*
- * Pure PHP 8.3+ framework built from scratch.
- *
- * Wanted a lightweight and fast alternative to other useless-as-hell and huge frameworks.
- * Easy to incorporate in SaaS, Webapps, REST APIs...
- *
- * Made by : Dawnless (Alexandre VOISIN)
- * → https://www.linkedin.com/in/alexvsn/
- * → https://dawnless.me
- * → https://hardware-hub.fr
- */
-class Aether {
+final class LangHandler {
 
-    /** @var string $_globalAppState */
-    public static string $_globalAppState = "DEV";
+    /** @var array $_translations */
+    private static array $_translations = [];
+
+    /** @var string $_default */
+    private static string $_default = "en";
 
 
     /**
-     * Aether Core init function
+     * @param string|null $_lang
      *
      * @return void
      */
-    public static function _init() : void {
+    public static function _loadLangFile(?string $_lang = null) : void {
+        $language = substr($_lang ?? ($_SERVER['HTTP_ACCEPT_LANGUAGE'] ?? self::$_default), 0, 2);
 
-        # - Dev Env-related
-        if (self::$_globalAppState == "DEV"){
-            error_reporting(E_ALL);
-            ini_set('display_errors', 1);
+        self::$_translations = IOFile::_open(
+            IOTypeEnum::JSON,
+            __DIR__ . "/../../../../../../lang/" . $language . ".json"
+        )->_readDecoded();
+    }
+
+    /**
+     * @param string $_identifier
+     * @param array|null $_params
+     *
+     * @return array|string|string[]
+     */
+    public static function _get(string $_identifier, ?array $_params = null) : mixed {
+        $keys = explode('.', $_identifier);
+        $value = self::$_translations;
+
+        foreach ($keys as $k){
+            $value = $value[$k] ?? $_identifier;
         }
 
-        # - .Env File load
-        ProjectConfig::_load();
+        if (!is_string($value))
+            return $_identifier;
 
-        # - Cookies Security Fix
-        session_set_cookie_params([
-            'httponly' => true,
-            'secure' => true,
-            'samesite' => 'Strict'
-        ]);
-
-        # - Session
-        ini_set('session.cookie_lifetime', 60 * 60 * 24 * 10);
-        ini_set('session.gc_maxlifetime', 60 * 60 * 24 * 10);
-        session_start();
-
-        # - Modules load
-        ModuleFactory::_load([
-            I18N::class
-        ]);
-
-        # - Middleware
-        Pipeline::_run([ CsrfMiddleware::class ], function (){
-            # - Router Gateway : deliver correct controller for each route
-            (new ControllerGateway())->_link();
-        });
+        return empty($_params) ? $value : str_replace(
+            array_keys($_params),
+            array_values($_params),
+            $value
+        );
     }
 }

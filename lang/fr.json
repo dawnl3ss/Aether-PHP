@@ -1,0 +1,8 @@
+{
+  "welcome": "Bienvenue sur Aether",
+  "price_total": "Total : {price} €",
+  "admin": {
+    "users": "Utilisateurs",
+    "settings": "Paramètres"
+  }
+}

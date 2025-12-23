@@ -24,17 +24,31 @@ declare(strict_types=1);
 namespace Aether\Modules\I18n;
 
 use Aether\Modules\AetherModule;
+use Aether\Modules\I18n\Lang\LangHandler;
 
 
 final class I18N extends AetherModule {
+
 
 
     public function __construct(){
         parent::__construct("I18n Module", 1.0, "Permits you to translate text in multiple languages");
     }
 
+
+    /**
+     * @param string $_identifier
+     * @param array|null $_params
+     *
+     * @return string
+     */
+    public static function __(string $_identifier, ?array $_params = null) : string {
+        return LangHandler::_get($_identifier, $_params);
+    }
+
+
     public function _onLoad(){
-        echo "Loaded<br>";
+        LangHandler::_loadLangFile();
     }
 
     /**
