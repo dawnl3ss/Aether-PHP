@@ -69,7 +69,7 @@ class DatabaseWrapper {
         return $this->_driver->_query($query, $assoc);
     }
 
-    /**
+    /**1
      * @param string $query
      *
      * @return mixed
