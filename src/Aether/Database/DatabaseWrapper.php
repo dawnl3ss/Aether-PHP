@@ -147,6 +147,44 @@ class DatabaseWrapper {
 
 
     /**
+     * Operate a SQL 'SELECT' query with JOIN
+     *
+     * @param string $table
+     * @param string $content
+     * @param array $joins Format: [['table' => 'table_name', 'type' => 'INNER|LEFT|RIGHT', 'on' => 'table1.id = table2.id']]
+     * @param array $assoc
+     *
+     * @return mixed
+     */
+    public function _join(string $table, string $content, array $joins = [], array $assoc = []) : mixed {
+        $query = "SELECT {$content} FROM {$table}";
+
+        if (!empty($joins)){
+            foreach ($joins as $join){
+                $joinType = strtoupper($join['type'] ?? 'INNER');
+                $joinTable = $join['table'];
+                $joinOn = $join['on'];
+
+                $query .= " {$joinType} JOIN {$joinTable} ON {$joinOn}";
+            }
+        }
+
+        if (!empty($assoc)){
+            $conditions = [];
+
+            foreach ($assoc as $key => $value){
+                $conditions[] = "{$key} = :{$key}";
+            }
+
+            $query .= " WHERE " . implode(" AND ", $conditions);
+        }
+
+        return $this->_driver->_query($query, $assoc);
+    }
+
+
+
+    /**
      * @param DatabaseDriverEnum $_enum
      *
      * @return DatabaseDriver

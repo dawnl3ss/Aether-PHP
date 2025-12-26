@@ -64,7 +64,7 @@ final class RegisterAuthGateway extends AuthInstance implements AuthGatewayEvent
             "username" => $this->_username,
             "email" => $this->_email,
             "password_hash" => $this->_hashPassword($this->_password),
-            "perms" => ""
+            "perms" => "[]"
         ]);
         $user_db = $this->_dbconn->_select(ProjectConfig::_get("AUTH_TABLE_GATEWAY"), '*', [ "email" => $this->_email ])[0];
 
