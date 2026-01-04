@@ -25,6 +25,7 @@ namespace Aether\Modules\AetherCLI\Command\List;
 
 use Aether\Modules\AetherCLI\Cli\CliColorEnum;
 use Aether\Modules\AetherCLI\Command\Command;
+use Aether\Modules\AetherCLI\Script\BaseScript;
 
 
 class SourceCommand extends Command {
@@ -54,7 +55,16 @@ class SourceCommand extends Command {
             if (strtolower(pathinfo($script, PATHINFO_EXTENSION)) !== 'php')
                 die(CliColorEnum::FG_RED->_paint("[SourceCommand] - Error - Source file '{$script}' needs to be a php file.") . PHP_EOL);
 
-            require_once $script;
+            $script = new $script();
+
+            if (!$script instanceof BaseScript)
+                die($this->_echo("[SourceCommand] - Error - Provided script must be an instance of AetherCLI/Script/BaseScript.", CliColorEnum::FG_RED));
+
+            $script->_onLoad();
+
+            if (!$script->_onRun())
+                die("[SourceCommand] - Error - _onRun() function contains error. You may fix it before running.");
+
             echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[SourceCommand] - Successfully imported source file '{$script}'.") . PHP_EOL;
         } else if ($_prototype === "db"){
 

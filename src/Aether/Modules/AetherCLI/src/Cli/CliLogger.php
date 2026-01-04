@@ -33,7 +33,7 @@ class CliLogger {
      *
      */
     public function _echo(string $_text, CliColorEnum $_color){
-        echo $_color->_paint($_text);
+        echo $_color->_paint($_text) . PHP_EOL;
     }
 
     /**
