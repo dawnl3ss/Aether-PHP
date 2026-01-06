@@ -21,38 +21,19 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Modules\AetherCLI\Script;
-
-use Aether\Modules\AetherCLI\Cli\CliLogger;
-use Aether\Modules\AetherCLI\src\Script\ScriptInterface;
+namespace Aether\Http\Methods;
 
 
-/**
- * @class BaseScript : extends this class when you need to implement a AetherCLI script.
- */
-abstract class BaseScript implements ScriptInterface {
+abstract class HttpMethod implements MethodInterface {
 
-
-    /** @var CliLogger $_logger */
-    private CliLogger $_logger;
 
     /** @var string $_name */
     private string $_name;
 
-    /** @var string $_purpose */
-    private string $_purpose;
 
-
-    public function __construct(string $_name, string $_purpose){
-        $this->_logger = new CliLogger();
+    public function __construct(string $_name){
         $this->_name = $_name;
-        $this->_purpose = $_purpose;
     }
-
-    /**
-     * @return CliLogger
-     */
-    public function _getLogger() : CliLogger { return $this->_logger; }
 
     /**
      * @return string
@@ -62,15 +43,5 @@ abstract class BaseScript implements ScriptInterface {
     /**
      * @return string
      */
-    public function _getPurpose() : string { return $this->_purpose; }
-
-    /**
-     * @return void
-     */
-    abstract public function _onLoad() : void;
-
-    /**
-     * @return bool
-     */
-    abstract public function _onRun() : bool;
+    public function __toString() : string { return $this->_getName(); }
 }

@@ -1,7 +1,10 @@
 <?php
 
+namespace Programming;
+
 use Aether\Modules\AetherCLI\Cli\CliColorEnum;
 use Aether\Modules\AetherCLI\Script\BaseScript;
+
 
 class ScriptExample extends BaseScript {
 

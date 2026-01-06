@@ -21,56 +21,33 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Modules\AetherCLI\Script;
-
-use Aether\Modules\AetherCLI\Cli\CliLogger;
-use Aether\Modules\AetherCLI\src\Script\ScriptInterface;
+namespace Aether\Http\Methods;
 
 
-/**
- * @class BaseScript : extends this class when you need to implement a AetherCLI script.
- */
-abstract class BaseScript implements ScriptInterface {
+class HttpGet extends HttpMethod {
 
 
-    /** @var CliLogger $_logger */
-    private CliLogger $_logger;
-
-    /** @var string $_name */
-    private string $_name;
-
-    /** @var string $_purpose */
-    private string $_purpose;
-
-
-    public function __construct(string $_name, string $_purpose){
-        $this->_logger = new CliLogger();
-        $this->_name = $_name;
-        $this->_purpose = $_purpose;
+    public function __construct(string $_name){
+        parent::__construct($_name);
     }
-
-    /**
-     * @return CliLogger
-     */
-    public function _getLogger() : CliLogger { return $this->_logger; }
-
-    /**
-     * @return string
-     */
-    public function _getName() : string { return $this->_name; }
-
-    /**
-     * @return string
-     */
-    public function _getPurpose() : string { return $this->_purpose; }
-
-    /**
-     * @return void
-     */
-    abstract public function _onLoad() : void;
 
     /**
      * @return bool
      */
-    abstract public function _onRun() : bool;
+    public function _isSafe() : bool { return true; }
+
+    /**
+     * @return bool
+     */
+    public function _isCacheable() : bool { return true; }
+
+    /**
+     * @return bool
+     */
+    public function _allowsBody() : bool { return false; }
+
+    /**
+     * @return bool
+     */
+    public function _requiresBody() : bool { return false; }
 }

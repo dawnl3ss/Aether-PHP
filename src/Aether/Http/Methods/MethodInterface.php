@@ -21,56 +21,50 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Modules\AetherCLI\Script;
-
-use Aether\Modules\AetherCLI\Cli\CliLogger;
-use Aether\Modules\AetherCLI\src\Script\ScriptInterface;
+namespace Aether\Http\Methods;
 
 
-/**
- * @class BaseScript : extends this class when you need to implement a AetherCLI script.
- */
-abstract class BaseScript implements ScriptInterface {
+interface MethodInterface {
 
-
-    /** @var CliLogger $_logger */
-    private CliLogger $_logger;
-
-    /** @var string $_name */
-    private string $_name;
-
-    /** @var string $_purpose */
-    private string $_purpose;
-
-
-    public function __construct(string $_name, string $_purpose){
-        $this->_logger = new CliLogger();
-        $this->_name = $_name;
-        $this->_purpose = $_purpose;
-    }
 
     /**
-     * @return CliLogger
-     */
-    public function _getLogger() : CliLogger { return $this->_logger; }
-
-    /**
+     * Get HTTP method's name.
+     *
      * @return string
      */
-    public function _getName() : string { return $this->_name; }
+    public function _getName() : string;
 
     /**
-     * @return string
-     */
-    public function _getPurpose() : string { return $this->_purpose; }
-
-    /**
-     * @return void
-     */
-    abstract public function _onLoad() : void;
-
-    /**
+     * Pure application of RFC 9110.
+     * -> Safe methods must not alter server state.
+     *
      * @return bool
      */
-    abstract public function _onRun() : bool;
+    public function _isSafe() : bool;
+
+
+    /**
+     * Return whether the method can hypothetically be cached.
+     * -> Yes for GET, HEAD.
+     *
+     * @return bool
+     */
+    public function _isCacheable() : bool;
+
+    /**
+     * Return whether the method can ACCEPT a body.
+     * -> Yes for POST, PUT, PATCH.
+     *
+     * @return bool
+     */
+    public function _allowsBody() : bool;
+
+    /**
+     * Return wether the method NEED a body.
+     * -> Yes for POST, PUT, PATCH.
+     * -> Method used for stricter checks.
+     *
+     * @return bool
+     */
+    public function _requiresBody() : bool;
 }
