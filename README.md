@@ -17,7 +17,7 @@
 ![Dependencies](https://img.shields.io/badge/dependencies-0-777BB4?style=for-the-badge)
 
 **The divine lightweight PHP framework**  
-**< 1 MB • Zero dependencies • Pure PHP 8.3+**
+**Zero dependencies • < 1 MB • Pure PHP 8.3+**
 
 Built from scratch. No Composer. No bloat.
 
@@ -32,7 +32,7 @@ Built with a fully OOP-oriented architecture, Aether is designed from day one to
 ## 🚀 Why Aether Will Change How You Build 
 
 - Blazing Performance: Boots in milliseconds, no overhead, pure PHP power.
-- Effortless Embedding: POO design makes integration into existing projects a breeze.
+- Effortless Embedding: OOP design makes integration into existing projects a breeze.
 - No Bloat, Ever: Zero external dependencies - everything you need, nothing you don't.
 - Freelance-Ready: Scalable, secure, and modular for real-world client missions.
 - Future-Proof: Actively evolving with clean, maintainable code.
@@ -121,7 +121,7 @@ if ($gateway->_tryAuth()){
 CSRF protection via CsrfMiddleware in the pipeline - automatic token generation and validation on POST/PUT/DELETE.
 
 ### 4. Database Layer - Simple Yet Powerful
-DatabaseWrapper + driver system supports MySQL & SQLite out of the box. Use DatabaseWrapper::_getInstance() for singleton access, optionally specifying the driver.
+DatabaseWrapper + driver system supports MySQL & SQLite out of the box. Use DatabaseWrapper for singleton access, specifying the database name and the driver.
 
 > Usage Example: Fetch Users
 
@@ -260,7 +260,7 @@ Join the movement. Build faster. Deliver better.
 
 ## Contributing
 
-Pull requests welcome! Focus on keeping it light, clean, and POO-driven.
+Pull requests welcome! Focus on keeping it light, clean, and OOP-driven.
 
 ## License
 
