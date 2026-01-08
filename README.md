@@ -23,10 +23,10 @@ Built from scratch. No Composer. No bloat.
 
 </div>
 
---- 
+---
 
-> Reclaim your freedom from bloated frameworks. Aether is a pure PHP 8.3+ framework engineered for speed, simplicity, and seamless integration. At under 1MB with zero dependencies, it's the perfect backend for modern frontend apps - React, Vue, Svelte, or vanilla JS. Embed it, extend it, own it.  
-  
+Reclaim your freedom from bloated frameworks. Aether is a pure PHP 8.3+ framework engineered for speed, simplicity, and seamless integration. At under 1MB with zero dependencies, it's the perfect backend for modern frontend apps - React, Vue, Svelte, or vanilla JS. Embed it, extend it, own it.
+
 Built with a fully OOP-oriented architecture, Aether is designed from day one to be dropped into any project without friction. It's not just lightweight - it's your secret weapon for delivering high-performance freelance projects faster than ever.
 
 ## 🚀 Why Aether Will Change How You Build 
@@ -58,7 +58,7 @@ No YAML, no XML, no massive config arrays. Routes are defined directly in contro
 
 How it works: ControllerGateway reflects over your controllers, extracts `[@route]` and `[@method]`, and registers them automatically.
 
->> Example: Simple Home Route
+> Example: Simple Home Route
 
 ```php
 class AppController extends Controller {
@@ -73,7 +73,7 @@ class AppController extends Controller {
 }
 ```
 
->> Example: Basic REST API Route
+> Example: Basic REST API Route
 
 ```php
 class ApiController extends Controller {
@@ -106,7 +106,7 @@ Built around AuthInterface and gateway pattern:
 
 Passwords hashed with Argon2ID, permissions stored as JSON-encoded arrays, users serialized safely in session.
 
->> Example: Basic Login Check
+> Example: Basic Login Check
 
 ```php
 $gateway = new LoginAuthGateway($username, $password);
@@ -123,7 +123,7 @@ CSRF protection via CsrfMiddleware in the pipeline - automatic token generation 
 ### 4. Database Layer - Simple Yet Powerful
 DatabaseWrapper + driver system supports MySQL & SQLite out of the box. Use DatabaseWrapper::_getInstance() for singleton access, optionally specifying the driver.
 
->> Usage Example: Fetch Users
+> Usage Example: Fetch Users
 
 ```php
 $db = new DatabaseWrapper("dbname", DatabaseDriverEnum::MYSQL);
@@ -141,7 +141,7 @@ Prepared statements everywhere - no SQL injection worries.
 - UserInstance handles permissions with methods like _hasPerm(), _isAdmin()
 - Automatic session update on user changes
 
->> Example: Check Admin
+> Example: Check Admin
 
 ```php
 if (UserInstance::_isLoggedIn() && SessionInstance::_getUser()->_isAdmin()){
@@ -159,7 +159,7 @@ ViewInstance::_make("home", ["message" => "Hello, Aether!"]);
 Supports full PHP templates - no templating engine bloat.
 
 However, if you are in a Controller, just use the _render() method.  
->> Homepage Example :
+> Homepage Example :
 ```php
     /**
      * [@method] => GET
@@ -184,7 +184,7 @@ However, if you are in a Controller, just use the _render() method.
 ### 7. HTTP Requests & Responses
 Use RequestFactory to create and send requests. Responses via ResponseFactory with formats like JSON, XML, TEXT.
 
->> Example: Create JSON Response
+> Example: Create JSON Response
 ```php
 $response = ResponseFactory::_create(
     HttpResponseFormatEnum::JSON,
@@ -195,7 +195,7 @@ $response->_send();
 
 ```
 
->> Example: Handle POST Input
+> Example: Handle POST Input
 
 ```php
 $unpacker = new HttpParameterUnpacker();
