@@ -1,8 +1,8 @@
-# ☄️ Aether-PHP
+# ☄️ Aether PHP
 
 <div align="center">
 
-```
+```php
      █████╗ ███████╗████████╗██╗  ██╗███████╗██████╗         ██████╗ ██╗  ██╗██████╗
      ██╔══██╗██╔════╝╚══██╔══╝██║  ██║██╔════╝██╔══██╗        ██╔══██╗██║  ██║██╔══██╗
      ███████║█████╗     ██║   ███████║█████╗  ██████╔╝ █████╗ ██████╔╝███████║██████╔╝
@@ -11,458 +11,266 @@
 ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝        ╚═╝     ╚═╝  ╚═╝╚═╝
 ```
 
-**The divine lightweight PHP framework**
-
 ![PHP](https://img.shields.io/badge/PHP-8.3%2B-777BB4?style=for-the-badge&logo=php&logoColor=white)
 ![License](https://img.shields.io/badge/license-Source--Available-yellow?style=for-the-badge)
 ![Size](https://img.shields.io/badge/size-%3C1MB-4CAF50?style=for-the-badge)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-red?style=for-the-badge)
 
+**The divine lightweight PHP framework**  
 **< 1 MB • Zero dependencies • Pure PHP 8.3+**
 
-Built from scratch. No Composer. No bloat.  
-Because waiting 8 seconds to install 147 packages just to echo "Hello World" is a crime.
-
-[Features](#-features) • [Quick Start](#-quick-start) • [Documentation](#-documentation) • [Roadmap](#-roadmap) • [License](#-license)
+Built from scratch. No Composer. No bloat.
 
 </div>
 
----
+--- 
 
-## 🚀 Why Aether-PHP ?
-
-Modern PHP frameworks are **bloated**. Laravel needs 100+ MB of dependencies just to start. Symfony isn't much better.
-
-**Aether-PHP is different:**
-- **Blazingly fast** : Zero overhead, pure PHP execution
-- **Incredibly lightweight** : < 1 MB total size
-- **Security-first** : Argon2id hashing, input sanitization, secure sessions
-- **Zero dependencies** : No Composer packages, no external libraries
-- **Production-ready** : Full auth system, routing, database wrapper included
-- **Easily extensible** : Gateway pattern, traits, and clean OOP architecture
-
-Perfect for SaaS, REST APIs, web apps, and microservices where performance matters.
-
----
-
-## ✨ Features
-
-### Core Framework
-- ✅ **Automatic routing** via PHPDoc annotations (`@route`, `@method`)
-- ✅ **RESTful API support** with automatic JSON responses
-- ✅ **Clean MVC architecture** with Controller Gateway system
-- ✅ **Input sanitization** and security traits
-- ✅ **Strict types** and modern PHP 8 features
-
-### Authentication System
-- ✅ **Complete auth flow** (login, register, logout)
-- ✅ **User instance serialization** (UID, username, email, permissions)
-- ✅ **Gateway pattern** for extensible auth logic
-
-### Database
-- ✅ **PDO wrapper** with prepared statements
-- ✅ **Query builder** for SELECT, INSERT, and more
-- ✅ **Multi-driver support** (MySQL ready, SQLite coming soon - as well as Mongodb maybe lol)
-- ✅ **Type-safe parameter binding**
-
----
-
-## 📦 Installation
-
-### Requirements
-- PHP 8.3 or higher
-- Apache2 with mod_rewrite
-- MySQL/MariaDB (for auth system)
-
-### Setup
-
-**1. Clone the repository**
-
-```bash
-git clone https://github.com/dawnl3ss/Aether-PHP.git
-cd Aether-PHP
-```
-
-**2. Configure your database**
-
-Edit `src/Aether/Config/ProjectConfig.php`:
-
-```php
-const string DATABASE_ADDRESS = '127.0.0.1';
-const string DATABASE_USERNAME = 'root';
-const string DATABASE_PASSWORD = 'root';
-const string AUTH_DATABASE_GATEWAY = "aetherphp";
-const string AUTH_TABLE_GATEWAY = "users";
-```
-
-**3. Import the database structure**
-
-```bash
-mysql -u root -p < db_structure.sql
-```
-
-**4. Configure Apache**
-
-Make sure `.htaccess` is enabled and `mod_rewrite` is active:
-
-```apache
-RewriteEngine on
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule . index.php [L]
-DirectorySlash Off
-```
-
-**5. Test the installation**
-
-Navigate to `http://localhost/` and you should see the homepage.
-
-**Default admin credentials:**
-- Email: `admin@gmail.com`
-- Password: `aetherphp`
-
----
-
-## 📚 Documentation
-
-### Creating Your First Controller
-
-Controllers are automatically discovered and registered by the `ControllerGateway`.  
+> Reclaim your freedom from bloated frameworks. Aether is a pure PHP 8.3+ framework engineered for speed, simplicity, and seamless integration. At under 1MB with zero dependencies, it's the perfect backend for modern frontend apps - React, Vue, Svelte, or vanilla JS. Embed it, extend it, own it.  
   
-Create a file in `app/App/Controller/MyController.php`:  
+Built with a fully OOP-oriented architecture, Aether is designed from day one to be dropped into any project without friction. It's not just lightweight - it's your secret weapon for delivering high-performance freelance projects faster than ever.
+
+## 🚀 Why Aether Will Change How You Build 
+
+- Blazing Performance: Boots in milliseconds, no overhead, pure PHP power.
+- Effortless Embedding: POO design makes integration into existing projects a breeze.
+- No Bloat, Ever: Zero external dependencies - everything you need, nothing you don't.
+- Freelance-Ready: Scalable, secure, and modular for real-world client missions.
+- Future-Proof: Actively evolving with clean, maintainable code.
+
+Aether isn't another PHP framework - it's the solution.
+
+## 🏗️ Architecture Deep Dive: Elegant, Modular, Performant
+
+Aether's core is built around clean separation of concerns, interfaces, traits, and enums - making it highly extensible while staying incredibly light.
+
+### 1. Bootstrapping & Kernel
+Everything starts in Aether::_init():
+
+- Session start with extended lifetime
+- Module loading via ModuleFactory
+- Middleware pipeline execution
+- Router dispatch through ControllerGateway
+
+This gives you full control over the request lifecycle.
+
+### 2. Routing & Controllers - Annotation Magic
+No YAML, no XML, no massive config arrays. Routes are defined directly in controllers using docblock annotations.
+
+How it works: ControllerGateway reflects over your controllers, extracts `[@route]` and `[@method]`, and registers them automatically.
+
+>> Example: Simple Home Route
 
 ```php
-<?php
-declare(strict_types=1);
+class AppController extends Controller {
 
-namespace App\Controller;
-
-class MyController {
-    
     /**
-     * Homepage
-     * 
      * [@method] => GET
      * [@route] => /
      */
     public function index() {
-        echo "Welcome to Aether-PHP!";
+        $this->_render("index", ["title" => "Welcome to Aether"]);
     }
-    
+}
+```
+
+>> Example: Basic REST API Route
+
+```php
+class ApiController extends Controller {
+
     /**
-     * User profile with dynamic parameter
-     * 
      * [@method] => GET
-     * [@route] => /user/{id}
+     * [@route] => /api/fetch-users
      */
-    public function profile($id) {
-        echo "User ID: " . $id;
+    public function users_fetch() {
+        $response = ResponseFactory::_create(
+            HttpResponseFormatEnum::JSON,
+            [
+                "admin" => "admin@aetherphp",
+                "user1" => "user1@aetherphp",
+                "user2" => "user2@aetherphp",
+            ],
+            200
+        );
+        $response->_send();
     }
 }
 ```
 
-**That's it !** The router automatically detects your controller and registers the routes.  
+### 3. Authentication System - Secure by Design
+Built around AuthInterface and gateway pattern:
 
-**! Be carreful !** : PHPDoc must follow a certain style
+- LoginAuthGateway
+- RegisterAuthGateway
+- LogoutAuthGateway
 
-```php
-    /**
-     * Some text/phpdoc
-     * 
-     * [@method] => {METHOD} <- !! 
-     * [@route] => {ROUTE} <- !!
-     */
-    public function whateveryouwant() {
-        echo "Welcome to Aether-PHP!";
-    }
-}
-```
+Passwords hashed with Argon2ID, permissions stored as JSON-encoded arrays, users serialized safely in session.
 
-If the PHPDoc does not contain `@method` nor `@route`, the Controller Gateway will not be able to recognize the routes.
-
-### Creating API Endpoints
-
-API controllers go in `app/App/Controller/Api/` and return JSON responses.
+>> Example: Basic Login Check
 
 ```php
-<?php
-declare(strict_types=1);
+$gateway = new LoginAuthGateway($username, $password);
 
-namespace App\Controller\Api;
-
-use Aether\Api\Format\JsonResponse;use Aether\Http\HttpParameterUnpacker;
-
-class ProductApiController {
-    
-    public function __construct() {
-        header('Content-Type: application/json');
-    }
-    
-    /**
-     * Get all products
-     * 
-     * [@method] => GET
-     * [@route] => /api/v1/products
-     */
-    public function list() {
-        $response = new JsonResponse();
-        $response->_add("status", "success")
-                 ->_add("products", [
-                     ["id" => 1, "name" => "Product A"],
-                     ["id" => 2, "name" => "Product B"]
-                 ]);
-        
-        echo $response->_encode();
-    }
-    
-    /**
-     * Create a product
-     * 
-     * [@method] => POST
-     * [@route] => /api/v1/products/create
-     */
-    public function create() {
-        $params = new HttpParameterUnpacker();
-        $name = $params->_getAttribute("name");
-        
-        $response = new JsonResponse();
-        
-        if (!$name) {
-            $response->_add("status", "error")
-                     ->_add("message", "Product name required");
-        } else {
-            $response->_add("status", "success")
-                     ->_add("message", "Product created");
-        }
-        
-        echo $response->_encode();
-    }
-}
-```
-
-### Using the Database Wrapper
-
-The `DatabaseWrapper` provides a clean, secure interface to your database.
-
-```php
-<?php
-use Aether\Database\DatabaseWrapper;
-
-// Initialize wrapper
-$db = new DatabaseWrapper("your_database_name");
-
-// SELECT query
-$users = $db->_select("users", "*", ["email" => "admin@gmail.com"]);
-
-// SELECT with multiple conditions
-$activeUsers = $db->_select("users", "username, email", [
-    "status" => "active",
-    "role" => "admin"
-]);
-
-// INSERT query
-$db->_insert("users", [
-    "username" => "johndoe",
-    "email" => "john@example.com",
-    "password_hash" => password_hash("secret", PASSWORD_ARGON2ID),
-    "perms" => ""
-]);
-
-// Check if record exists
-if ($db->_exist("users", ["email" => "john@example.com"])) {
-    echo "User already exists!";
-}
-```
-
-### Authentication System
-
-Aether-PHP comes with a complete authentication system out of the box.
-
-#### Registering Users
-
-```php
-use Aether\Auth\Gateway\RegisterAuthGateway;
-
-$gateway = new RegisterAuthGateway(
-    "john_doe",              // username
-    "john@example.com",      // email
-    "securepassword123"      // password
-);
-
-if ($gateway->_tryAuth()) {
-    echo $gateway->_getStatus(); // "user successfully signed up."
+if ($gateway->_tryAuth()){
+    echo "Login successful!";
 } else {
-    echo $gateway->_getStatus(); // error message
+    echo "Login failed: " . $gateway->_getStatus();
 }
 ```
 
-#### Logging In
+CSRF protection via CsrfMiddleware in the pipeline - automatic token generation and validation on POST/PUT/DELETE.
+
+### 4. Database Layer - Simple Yet Powerful
+DatabaseWrapper + driver system supports MySQL & SQLite out of the box. Use DatabaseWrapper::_getInstance() for singleton access, optionally specifying the driver.
+
+>> Usage Example: Fetch Users
 
 ```php
-use Aether\Auth\Gateway\LoginAuthGateway;
+$db = new DatabaseWrapper("dbname", DatabaseDriverEnum::MYSQL);
+$users = $db->_select("users", '*', ["active" => 1]);
 
-$gateway = new LoginAuthGateway(
-    "john@example.com",      // email
-    "securepassword123"      // password
+foreach ($users as $user){
+    var_dump($user);
+}
+```
+
+Prepared statements everywhere - no SQL injection worries.
+
+### 5. Session & User Management
+- SessionInstance centralizes $_SESSION access
+- UserInstance handles permissions with methods like _hasPerm(), _isAdmin()
+- Automatic session update on user changes
+
+>> Example: Check Admin
+
+```php
+if (UserInstance::_isLoggedIn() && SessionInstance::_getUser()->_isAdmin()){
+    echo "Admin access granted.";
+}
+```
+
+### 6. Views & Rendering
+Simple but effective:
+
+```php
+ViewInstance::_make("home", ["message" => "Hello, Aether!"]);
+```
+
+Supports full PHP templates - no templating engine bloat.
+
+However, if you are in a Controller, just use the _render() method.  
+>> Homepage Example :
+```php
+    /**
+     * [@method] => GET
+     * [@route] => /index
+     */
+    public function index(){
+        $this->_render("index", ["title" => "Welcome to Aether"]);
+    }
+
+    /**
+     * Exactly the same thing
+     *
+     * [@method] => GET
+     * [@route] => /index2
+     */
+    public function index2(){
+        ViewInstance::_make("index2", ["title" => "Welcome to Aether"]);
+    }
+```
+
+
+### 7. HTTP Requests & Responses
+Use RequestFactory to create and send requests. Responses via ResponseFactory with formats like JSON, XML, TEXT.
+
+>> Example: Create JSON Response
+```php
+$response = ResponseFactory::_create(
+    HttpResponseFormatEnum::JSON,
+    ["status" => "success", "message" => "Operation complete"],
+    200
 );
+$response->_send();
 
-if ($gateway->_tryAuth()) {
-    echo "Logged in successfully!";
-}
 ```
 
-#### Checking Authentication
+>> Example: Handle POST Input
 
 ```php
-use Aether\Auth\User\UserInstance;
-
-if (UserInstance::_isLoggedIn()) {
-    $user = unserialize($_SESSION["user"]);
-    echo "Welcome, " . $user->_getUsername();
-}
+$unpacker = new HttpParameterUnpacker();
+$input = $unpacker->_getAttribute("input-field");
+echo $input;
 ```
 
-#### Logging Out
+For requests:
 
 ```php
-use Aether\Auth\Gateway\LogoutAuthGateway;
+$request = RequestFactory::_create(
+    HttpMethodEnum::GET,
+    "https://api.example.com/data"
+);
+$response = $request->_send();
+```
+### 8. CLI Power Tools
+Run from project root:
 
-$gateway = new LogoutAuthGateway();
-$gateway->_tryAuth();
+```bash
+php bin/aether make:controller ProductController
+php bin/aether setup
+php bin/aether source:script scripts/migrate.php
 ```
 
+Perfect for automation, migrations, and seeding.
 
-## 🎯 Architecture Overview
+### 9. Modules & Extensibility
+Load custom modules easily:
 
-### Project Structure
-
-```
-Aether-PHP/
-├── app/
-│   └── App/
-│       └── Controller/
-│           ├── Api/
-│           │   ├── ApiController.php
-│           │   └── AuthApiController.php
-│           └── AppController.php
-├── src/
-│   └── Aether/
-│       ├── Api/
-│       ├── Auth/
-│       │   ├── Gateway/
-│       │   ├── Security/
-│       │   └── User/
-│       ├── Config/
-│       ├── Modules/
-│       │   └── Database/
-│       ├── Router/
-│       │   ├── Http/ 
-│       │   └── Route/
-│       └── Security/
-├── autoload.php                 # PSR-4 autoloader
-├── index.php                    # Application entry point
-├── .htacces
-└── db_structure.sql
+```php
+ModuleFactory::_load([
+    MyAnalyticsModule::class,
+    CustomApiModule::class
+]);
 ```
 
-### How Routing Works
+Each module should implements AetherModule with _onLoad() hook.
 
-1. All requests go through `index.php`
-2. The `ControllerGateway` scans all controllers in `app/App/Controller/` or `app/App/Controller/Api` for APIs
-3. It reads PHPDoc annotations (`@method` and `@route`)
-4. Routes are automatically registered in the `Router`
-5. The `Router` matches the current request and executes the appropriate controller method
+## Requirements
 
-### Database Architecture
+- PHP 8.3+
+- PDO extension
+- Web server with URL rewriting (for clean routes)
 
-- **DatabaseDriver** - Abstract base class for all database drivers
-- **DatabasePdoDriver** - PDO implementation with MySQL support
-- **DatabaseWrapper** - High-level interface for queries (SELECT, INSERT, etc.)
-- All queries use prepared statements for security
+## Quick Start
 
-### Authentication Flow
+```bash
+git clone https://github.com/dawnl3ss/Aether-PHP
+cd Aether-PHP
+cp .env.example .env
+# Edit .env with your DB info and credentials
+```
 
-1. User submits credentials
-2. Appropriate **AuthGateway** is created (Login, Register, or Logout)
-3. Gateway performs validation and database operations
-4. On success, **UserInstance** is created and serialized in `$_SESSION`
-5. `UserInstance::_isLoggedIn()` checks for valid session
+Point your web server to the project root - you're live!
 
----
+## The Vision
 
-## 🛣️ Roadmap
+Aether started as a personal rebellion against framework fatigue. Today, it's evolving into the go-to lightweight backend for freelancers who value speed, control, and clean code.
 
-- [ ] Route caching system (dev -> prod in 1ms)
-- [ ] Middleware support (rate limiting, CORS, authentication, etc.)
-- [ ] Full RBAC permission system
-- [ ] Admin dashboard
-- [ ] Module/plugin architecture
-- [ ] SQLite database driver
-- [ ] Template engine integration
-- [ ] Form validation helpers
-- [ ] File upload handling
-- [ ] Email service integration
-- [ ] CLI tool for scaffolding
-- [ ] Unit testing framework integration
-- [ ] API documentation generator
+Join the movement. Build faster. Deliver better.
 
----
+## Contributing
 
-## 🤝 Contributing
+Pull requests welcome! Focus on keeping it light, clean, and POO-driven.
 
-This project is **source-available** but not open-source. Contributions are welcome but subject to review.
+## License
 
-If you find bugs or have feature requests:
-1. Open an issue on GitHub
-2. Describe the problem or feature clearly
-3. Include code examples if applicable
+Commercial license required for redistribution. Source available for personal and freelance use. See LICENSE.md.
 
-For major changes or commercial use, contact me : **alexandre.voisin@epita.fr**
+## Author
 
----
+dawnl3ss (Alex') - Passionate about clean, performant PHP.
 
-## 📄 License
+GitHub: [dawnl3ss](https://github.com/dawnl3ss)  
+Project: [github.com/dawnl3ss/Aether-PHP](https://github.com/dawnl3ss/Aether-PHP)
 
-**Aether-PHP Framework — Source-Available License**  
-© 2025-present dawnl3ss — All rights reserved
-
-### You are allowed to:
-- ✅ View and study the source code
-- ✅ Use Aether-PHP in your personal and commercial projects
-- ✅ Modify it for your own needs
-
-### You are NOT allowed to:
-- ❌ Redistribute Aether-PHP (modified or not)
-- ❌ Remove this license or the "Aether-PHP" branding
-- ❌ Sell or sublicense Aether-PHP itself
-
-**Want to redistribute or sell Aether-PHP-based products?**  
-→ Contact **alexandre.voisin@epita.fr** for commercial licensing
-
-This is **NOT** an open-source license. See [LICENSE](LICENSE) for full terms.
-
----
-
-## 🎯 Use Cases
-
-Aether-PHP is perfect for:
-
-- **Microservices** - Minimal footprint, maximum performance
-- **REST APIs** - Built-in JSON response handling
-- **SaaS Applications** - Authentication and database ready
-- **Backend for web or mobile apps** - Fast, secure, scalable
-- **Game servers** - Lightweight, low latency
-- **Internal tools** - Quick setup, no dependency hell
-
----
-
-## 💬 Final Word
-
-Started PHP at 11. Now I'm 20.  
-This is the cleanest, fastest, most embeddable thing I've ever built.
-
-**Star if you hate bloat too.**  
-**Fork if you're crazy enough to make it even faster**
-
-- [Dawnl3ss](https://github.com/dawnl3ss)
-
----
+**Aether PHP - The divine lightweight PHP framework**
