@@ -14,21 +14,65 @@
  *
  *  Built from scratch. No bloat. OOP Embedded.
  *
- *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
+ *  @author: dawnl3ss (Alex') ©2026 — All rights reserved
  *  Source available • Commercial license required for redistribution
  *  → https://github.com/dawnl3ss/Aether-PHP
  *
 */
 declare(strict_types=1);
 
-# - Autoload
-require_once __DIR__ . '/autoload.php';
+namespace Aether\Cache\Adapter;
+
+use Aether\Cache\CacheInterface;
+
+use function apcu_fetch;
+use function apcu_store;
+use function apcu_delete;
+use function apcu_clear_cache;
 
 
-# - Core init
-$boot_time = \testing\BootTimeTest::_wrap(function (){
-    # - Core init
-    \Aether\Aether::_init();
-});
+class Apcu implements CacheInterface {
 
-print_r("<br><br>" . $boot_time . " ms");
+    /**
+     * @param string $_key
+     * @param mixed|null $_default
+     *
+     * @return mixed
+     */
+    public function _get(string $_key, mixed $_default = null) : mixed {
+        $val = apcu_fetch($_key, $ok);
+        return $ok ? $val : $_default;
+    }
+
+    /**
+     * @param string $_key
+     * @param mixed $_value
+     * @param int $_ttl
+     *
+     * @return bool
+     */
+    public function _set(string $_key, mixed $_value, int $_ttl = 0) : bool {
+        return apcu_store($_key, $_value, $_ttl);
+    }
+
+    /**
+     * @param string $_key
+     *
+     * @return bool
+     */
+    public function _delete(string $_key) : bool {
+        return apcu_delete($_key);
+    }
+
+    /**
+     * @return bool
+     */
+    public function _clear() : bool {
+        return apcu_clear_cache();
+    }
+
+    public function _has(string $_key) : bool {
+        apcu_fetch($_key, $status);
+        return $status;
+    }
+}

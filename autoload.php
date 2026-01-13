@@ -9,7 +9,7 @@
  *     ██║  ██║███████╗   ██║   ██║  ██║███████╗██║  ██║        ██║     ██║  ██║██║
  *     ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝        ╚═╝     ╚═╝  ╚═╝╚═╝
  *
- *                      The divine lightweight PHP framework
+ *                    The divine lightweight PHP framework
  *                  < 1 Mo • Zero dependencies • Pure PHP 8.3+
  *
  *  Built from scratch. No bloat. POO Embedded.
@@ -25,7 +25,7 @@ declare(strict_types=1);
 spl_autoload_register(function ($class){
 
     # - Aether Core
-    if (str_starts_with($class, 'Aether\\')) {
+    if (str_starts_with($class, 'Aether\\')){
 
         # - Aether Modules
         if (str_starts_with($class, 'Aether\\Modules\\')){

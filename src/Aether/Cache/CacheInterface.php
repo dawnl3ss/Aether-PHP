@@ -14,21 +14,51 @@
  *
  *  Built from scratch. No bloat. OOP Embedded.
  *
- *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
+ *  @author: dawnl3ss (Alex') ©2026 — All rights reserved
  *  Source available • Commercial license required for redistribution
  *  → https://github.com/dawnl3ss/Aether-PHP
  *
 */
 declare(strict_types=1);
 
-# - Autoload
-require_once __DIR__ . '/autoload.php';
+namespace Aether\Cache;
 
 
-# - Core init
-$boot_time = \testing\BootTimeTest::_wrap(function (){
-    # - Core init
-    \Aether\Aether::_init();
-});
+interface CacheInterface {
 
-print_r("<br><br>" . $boot_time . " ms");
+    /**
+     * @param string $_key
+     * @param mixed|null $_default
+     *
+     * @return mixed
+     */
+    public function _get(string $_key, mixed $_default = null) : mixed;
+
+    /**
+     * @param string $_key
+     * @param mixed $_value
+     * @param int $_ttl
+     *
+     * @return bool
+     */
+    public function _set(string $_key, mixed $_value, int $_ttl = 0) : bool;
+
+    /**
+     * @param string $_key
+     *
+     * @return bool
+     */
+    public function _delete(string $_key) : bool;
+
+    /**
+     * @return bool
+     */
+    public function _clear() : bool;
+
+    /**
+     * @param string $_key
+     *
+     * @return bool
+     */
+    public function _has(string $_key) : bool;
+}

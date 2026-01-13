@@ -14,21 +14,21 @@
  *
  *  Built from scratch. No bloat. OOP Embedded.
  *
- *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
+ *  @author: dawnl3ss (Alex') ©2026 — All rights reserved
  *  Source available • Commercial license required for redistribution
  *  → https://github.com/dawnl3ss/Aether-PHP
  *
 */
 declare(strict_types=1);
 
-# - Autoload
-require_once __DIR__ . '/autoload.php';
+namespace Aether\Cache;
+
+use Aether\Cache\Adapter\Apcu;
 
 
-# - Core init
-$boot_time = \testing\BootTimeTest::_wrap(function (){
-    # - Core init
-    \Aether\Aether::_init();
-});
+class CacheFactory {
 
-print_r("<br><br>" . $boot_time . " ms");
+    public static function _get() : CacheInterface {
+        return new Apcu();
+    }
+}

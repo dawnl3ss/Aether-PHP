@@ -24,12 +24,8 @@ declare(strict_types=1);
 namespace Aether;
 
 use Aether\Config\ProjectConfig;
-use Aether\IO\IOFile;
-use Aether\IO\IOFolder;
-use Aether\IO\IOTypeEnum;
 use Aether\Middleware\Pipeline;
 use Aether\Middleware\Stack\CsrfMiddleware;
-use Aether\Modules\I18n\I18N;
 use Aether\Modules\ModuleFactory;
 use Aether\Router\Controller\ControllerGateway;
 
