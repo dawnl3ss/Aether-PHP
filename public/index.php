@@ -1,6 +1,6 @@
 <?php
 
-echo __("welcome") . "<br>";
+echo "Page d'accueil demo pour Router/Controller<br>";
 
 # - Data extracted from view dispatcher
 /** @var string $loggedin */

@@ -12,9 +12,9 @@
  *                      The divine lightweight PHP framework
  *                  < 1 Mo • Zero dependencies • Pure PHP 8.3+
  *
- *  Built from scratch. No bloat. POO Embedded.
+ *  Built from scratch. No bloat. OOP Embedded.
  *
- *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
+ *  @author: dawnl3ss (Alex') ©2026 — All rights reserved
  *  Source available • Commercial license required for redistribution
  *  → https://github.com/dawnl3ss/Aether-PHP
  *
@@ -24,6 +24,9 @@ declare(strict_types=1);
 namespace Aether;
 
 use Aether\Config\ProjectConfig;
+use Aether\IO\IOFile;
+use Aether\IO\IOFolder;
+use Aether\IO\IOTypeEnum;
 use Aether\Middleware\Pipeline;
 use Aether\Middleware\Stack\CsrfMiddleware;
 use Aether\Modules\I18n\I18N;
@@ -76,9 +79,7 @@ class Aether {
         session_start();
 
         # - Modules load
-        ModuleFactory::_load([
-            I18N::class
-        ]);
+        ModuleFactory::_load([]);
 
         # - Middleware
         Pipeline::_run([ CsrfMiddleware::class ], function (){
