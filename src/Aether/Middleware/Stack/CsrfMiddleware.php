@@ -23,8 +23,8 @@ declare(strict_types=1);
 
 namespace Aether\Middleware\Stack;
 
-use Aether\Api\Format\JsonResponse;
 use Aether\Http\HttpParameterUnpacker;
+use Aether\Http\Response\Format\HttpResponseFormatEnum;
 use Aether\Middleware\MiddlewareInterface;
 use Aether\Security\Token\CsrfToken;
 
@@ -52,10 +52,10 @@ final class CsrfMiddleware implements MiddlewareInterface {
             http_response_code(403);
 
             if (str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')){
-                return (new JsonResponse())
-                    ->_add('error', 'Invalid or missing CSRF token')
-                    ->_add('code', 403)
-                ->_encode();
+                return Aether()->_http()->_response(HttpResponseFormatEnum::JSON, [
+                    "status" => "error",
+                    "message" => "Invalid or missing CSRF token"
+                ], 403)->_send();
             }
 
             echo '<h1>403 - Forbidden</h1><p>Invalid CSRF token.</p>';

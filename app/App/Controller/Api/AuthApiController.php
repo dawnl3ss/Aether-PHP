@@ -23,7 +23,6 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use Aether\Api\Format\JsonResponse;
 use Aether\Auth\Gateway\LoginAuthGateway;
 use Aether\Auth\Gateway\LogoutAuthGateway;
 use Aether\Auth\Gateway\RegisterAuthGateway;
