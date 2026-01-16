@@ -26,7 +26,9 @@ namespace Aether;
 use Aether\Config\ProjectConfig;
 use Aether\Middleware\Pipeline;
 use Aether\Middleware\Stack\CsrfMiddleware;
+use Aether\Middleware\Stack\MaintenanceMiddleware;
 use Aether\Middleware\Stack\RatelimitMiddleware;
+use Aether\Middleware\Stack\SecurityHeadersMiddleware;
 use Aether\Modules\ModuleFactory;
 use Aether\Router\Controller\ControllerGateway;
 use Aether\Service\ServiceManager;
@@ -94,8 +96,13 @@ class Aether {
         # - Modules load
         ModuleFactory::_load([]);
 
-        # - Middleware
-        Pipeline::_run([ CsrfMiddleware::class, RatelimitMiddleware::class ], function (){
+        # - Middlewares
+        Pipeline::_run([
+            CsrfMiddleware::class,
+            SecurityHeadersMiddleware::class,
+            RatelimitMiddleware::class,
+            MaintenanceMiddleware::class,
+        ], function (){
             # - Router Gateway : deliver correct controller for each route
             ControllerGateway::_link();
         });
