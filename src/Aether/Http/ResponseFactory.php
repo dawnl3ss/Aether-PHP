@@ -31,6 +31,67 @@ use Aether\Http\Response\HttpResponse;
 class ResponseFactory {
 
     /**
+     * @param string|array $_body
+     * @param int $_code
+     * @param string $_url
+     * @param HttpMethodEnum $_method
+     *
+     * @return HttpResponse
+     */
+    public function _html(string|array $_body, int $_code, string $_url = "", HttpMethodEnum $_method = HttpMethodEnum::GET) : HttpResponse {
+        return self::_create(HttpResponseFormatEnum::HTML, $_body, $_code, $_url, $_method);
+    }
+
+    /**
+     * @param string|array $_body
+     * @param int $_code
+     * @param string $_url
+     * @param HttpMethodEnum $_method
+     *
+     * @return HttpResponse
+     */
+    public function _json(string|array $_body, int $_code, string $_url = "", HttpMethodEnum $_method = HttpMethodEnum::GET) : HttpResponse {
+        return self::_create(HttpResponseFormatEnum::JSON, $_body, $_code, $_url, $_method);
+    }
+
+    /**
+     * @param string|array $_body
+     * @param int $_code
+     * @param string $_url
+     * @param HttpMethodEnum $_method
+     *
+     * @return HttpResponse
+     */
+    public function _xml(string|array $_body, int $_code, string $_url = "", HttpMethodEnum $_method = HttpMethodEnum::GET) : HttpResponse {
+        return self::_create(HttpResponseFormatEnum::XML, $_body, $_code, $_url, $_method);
+    }
+
+    /**
+     * @param string|array $_body
+     * @param int $_code
+     * @param string $_url
+     * @param HttpMethodEnum $_method
+     *
+     * @return HttpResponse
+     */
+    public function _text(string|array $_body, int $_code, string $_url = "", HttpMethodEnum $_method = HttpMethodEnum::GET) : HttpResponse {
+        return self::_create(HttpResponseFormatEnum::TEXT, $_body, $_code, $_url, $_method);
+    }
+
+    /**
+     * @param string|array $_body
+     * @param int $_code
+     * @param string $_url
+     * @param HttpMethodEnum $_method
+     *
+     * @return HttpResponse
+     */
+    public function _pdf(string|array $_body, int $_code, string $_url = "", HttpMethodEnum $_method = HttpMethodEnum::GET) : HttpResponse {
+        return self::_create(HttpResponseFormatEnum::PDF, $_body, $_code, $_url, $_method);
+    }
+
+
+    /**
      *  Create HTTP response instance.
      *
      * @param HttpResponseFormatEnum $_format

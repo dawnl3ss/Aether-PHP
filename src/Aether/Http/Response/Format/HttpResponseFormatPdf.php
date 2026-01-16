@@ -24,29 +24,9 @@ declare(strict_types=1);
 namespace Aether\Http\Response\Format;
 
 
-enum HttpResponseFormatEnum : string {
+class HttpResponseFormatPdf extends HttpResponseFormat {
 
-    case JSON = 'json';
-    case HTML = 'html';
-    case XML = 'xml';
-    case TEXT = 'text';
-    case PDF = 'pdf';
-
-    /**
-     * @return string
-     */
-    public function _get() : string { return $this->value; }
-
-    /**
-     * @return HttpResponseFormat
-     */
-    public function _make() : HttpResponseFormat {
-        return match($this){
-            self::JSON => new HttpResponseFormatJson(),
-            self::HTML => new HttpResponseFormatHtml(),
-            self::XML => new HttpResponseFormatXml(),
-            self::TEXT => new HttpResponseFormatText(),
-            self::PDF => new HttpResponseFormatPdf()
-        };
+    public function __construct(){
+        parent::__construct(HttpResponseFormatEnum::PDF->value, 'Content-Type: application/pdf');
     }
 }

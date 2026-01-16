@@ -78,7 +78,7 @@ final class ControllerGateway {
                 continue;
             }
 
-            foreach ($reflection->getMethods() as $method){
+            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
                 $doc = $method->getDocComment();
                 if (!$doc) continue;
 

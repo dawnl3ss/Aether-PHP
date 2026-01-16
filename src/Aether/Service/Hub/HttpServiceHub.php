@@ -27,8 +27,6 @@ use Aether\Http\Methods\HttpMethod;
 use Aether\Http\Methods\HttpMethodEnum;
 use Aether\Http\Request\HttpRequest;
 use Aether\Http\RequestFactory;
-use Aether\Http\Response\Format\HttpResponseFormatEnum;
-use Aether\Http\Response\HttpResponse;
 use Aether\Http\ResponseFactory;
 
 
@@ -45,14 +43,10 @@ final class HttpServiceHub {
     }
 
     /**
-     * @param HttpResponseFormatEnum $_format
-     * @param string|array $_body
-     * @param int $_code
-     *
-     * @return HttpResponse
+     * @return ResponseFactory
      */
-    public function _response(HttpResponseFormatEnum $_format, string|array $_body, int $_code) : HttpResponse {
-        return ResponseFactory::_create($_format, $_body, $_code);
+    public function _response() : ResponseFactory {
+        return new ResponseFactory();
     }
 
     /**

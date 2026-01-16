@@ -25,10 +25,10 @@ namespace App\Controller\Api;
 
 use Aether\Config\ProjectConfig;
 use Aether\Http\Response\Format\HttpResponseFormatEnum;
+use Aether\Router\Controller\Controller;
 
 
-class ApiController {
-
+class ApiController extends Controller {
 
     /**
      * API listing route
@@ -37,10 +37,10 @@ class ApiController {
      * [@route] => /api/v1
      */
     public function api(){
-        Aether()->_http()->_response(HttpResponseFormatEnum::JSON, [
-            "name" => ProjectConfig::_get("PROJECT_NAME") . " backend | Powered by Aether-PHP framework.",
+        Aether()->_http()->_response()->_json([
+            "name" => $_ENV["PROJECT_NAME"] . " backend | Powered by Aether-PHP framework.",
             "version" => 1.0,
-            "description" => "Backend API v1 for " . ProjectConfig::_get("PROJECT_NAME"),
+            "description" => "Backend API v1 for " . $_ENV["PROJECT_NAME"],
             "routes" => array(
                 [
                     "method" => "GET",
@@ -79,7 +79,7 @@ class ApiController {
      * [@route] => /api/v1/test
      */
     public function test(){
-        Aether()->_http()->_response(HttpResponseFormatEnum::JSON, [
+        Aether()->_http()->_response()->_json([
             "test" => "This is a test v23"
         ], 200)->_send();
     }
