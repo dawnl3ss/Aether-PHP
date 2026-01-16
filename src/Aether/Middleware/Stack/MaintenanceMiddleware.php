@@ -40,7 +40,7 @@ class MaintenanceMiddleware implements MiddlewareInterface {
             http_response_code(503);
 
             if (str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')){
-                return Aether()->_http()->_response(HttpResponseFormatEnum::JSON, [
+                return Aether()->_http()->_response()->_json([
                     "status" => "error",
                     "message" => "Website in maintenance."
                 ], 503)->_send();

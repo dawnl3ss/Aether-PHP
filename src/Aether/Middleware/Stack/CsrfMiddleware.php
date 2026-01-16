@@ -52,7 +52,7 @@ final class CsrfMiddleware implements MiddlewareInterface {
             http_response_code(403);
 
             if (str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')){
-                return Aether()->_http()->_response(HttpResponseFormatEnum::JSON, [
+                return Aether()->_http()->_response()->_json([
                     "status" => "error",
                     "message" => "Invalid or missing CSRF token"
                 ], 403)->_send();

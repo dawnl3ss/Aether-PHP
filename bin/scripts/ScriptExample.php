@@ -1,6 +1,6 @@
 <?php
 
-namespace Programming;
+namespace bin\scripts;
 
 use Aether\Modules\AetherCLI\Cli\CliColorEnum;
 use Aether\Modules\AetherCLI\Script\BaseScript;

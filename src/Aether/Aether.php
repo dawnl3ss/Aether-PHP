@@ -25,6 +25,7 @@ namespace Aether;
 
 use Aether\Config\ProjectConfig;
 use Aether\Middleware\Pipeline;
+use Aether\Middleware\Stack\AuthMiddleware;
 use Aether\Middleware\Stack\CsrfMiddleware;
 use Aether\Middleware\Stack\MaintenanceMiddleware;
 use Aether\Middleware\Stack\RatelimitMiddleware;
@@ -98,10 +99,10 @@ class Aether {
 
         # - Middlewares
         Pipeline::_run([
-            CsrfMiddleware::class,
-            SecurityHeadersMiddleware::class,
             RatelimitMiddleware::class,
             MaintenanceMiddleware::class,
+            CsrfMiddleware::class,
+            SecurityHeadersMiddleware::class
         ], function (){
             # - Router Gateway : deliver correct controller for each route
             ControllerGateway::_link();
