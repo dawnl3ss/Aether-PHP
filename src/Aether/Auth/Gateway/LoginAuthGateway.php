@@ -29,7 +29,7 @@ use Aether\Auth\Security\PasswordHashingTrait;
 use Aether\Config\ProjectConfig;
 
 
-final class LoginAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
+class LoginAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
     use PasswordHashingTrait;
 
     public function __construct(string $_email, string $_password){

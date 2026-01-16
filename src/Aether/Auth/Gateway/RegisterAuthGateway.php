@@ -29,7 +29,7 @@ use Aether\Auth\Security\PasswordHashingTrait;
 use Aether\Auth\User\UserInstance;
 
 
-final class RegisterAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
+class RegisterAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
     use PasswordHashingTrait;
 
     /** @var string $_username */

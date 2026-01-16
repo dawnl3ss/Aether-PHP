@@ -26,7 +26,7 @@ namespace Aether\Auth\Gateway;
 use Aether\Auth\AuthInstance;
 
 
-final class LogoutAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
+class LogoutAuthGateway extends AuthInstance implements AuthGatewayEventInterface {
 
     public function __construct(){
         parent::__construct("", "");
