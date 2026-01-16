@@ -38,6 +38,7 @@ final class ProjectConfig {
             return;
 
         self::$_data = (new EnvDataUnpacker())->_raw();
+        $_ENV = self::$_data;
         self::$_loaded = true;
     }
 
