@@ -1,3 +1,0 @@
-<?php
-
-/** @var string $test */
