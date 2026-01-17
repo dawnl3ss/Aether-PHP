@@ -28,10 +28,7 @@ class MakeCommand extends Command {
                 die(CliColorEnum::FG_RED->_paint("[MakeCommand:Controller] - Error - Missing controller name.") . PHP_EOL);
 
             $path = $this->_getExtra()[0];
-            $pathlower = strtolower($path);
-
             $name = explode("/", $path)[count(explode("/", $path))-1];
-            $lower = strtolower($name);
 
             $baseControllerContent = <<<'PHP'
             <?php
@@ -48,9 +45,9 @@ class MakeCommand extends Command {
              *                      The divine lightweight PHP framework
              *                  < 1 Mo • Zero dependencies • Pure PHP 8.3+
              *
-             *  Built from scratch. No bloat. POO Embedded.
+             *  Built from scratch. No bloat. OOP Embedded.
              *
-             *  @author: dawnl3ss (Alex') ©2025 — All rights reserved
+             *  @author: dawnl3ss (Alex') ©2026 — All rights reserved
              *  Source available • Commercial license required for redistribution
              *  → github.com/dawnl3ss/Aether-PHP
              *
@@ -88,9 +85,33 @@ class MakeCommand extends Command {
             echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[MakeCommand:Controller] - Successfully created controller '{$name}'." . PHP_EOL);
             return true;
         } else if ($_prototype === "file"){
+            if ($this->_getExtra() === [])
+                $this->_error("[MakeCommand:File] - Error - Missing file name.");
+
+            $path = $this->_getExtra()[0];
+
+            if (file_exists($path))
+                $this->_error("[MakeCommand:File] - Error - File already exists.");
+
+            if (is_null(Aether()->_io()->_file($path, IOTypeEnum::OTHER)->_write('')))
+                $this->_error("[MakeCommand:File] - Error - Could not create the file. The path is probably wrong or folders are missing.");
+
+            echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[MakeCommand:File] - Successfully created file '{$path}'." . PHP_EOL);
             return true;
 
         }  else if ($_prototype === "folder"){
+            if ($this->_getExtra() === [])
+                $this->_error("[MakeCommand:Folder] - Error - Missing folder name.");
+
+            $path = $this->_getExtra()[0];
+
+            $folder = Aether()->_io()->_folder($path);
+
+            if ($folder->_exist())
+                $this->_error("[MakeCommand:Folder] - Error - Folder already exists.");
+
+            $folder->_create();
+            echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[MakeCommand:Folder] - Successfully created folder '{$path}'." . PHP_EOL);
             return true;
         }
         return false;

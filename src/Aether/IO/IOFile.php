@@ -67,7 +67,7 @@ final class IOFile {
         $data = $this->_getParser()->_encode($_content);
         $flags = $_append ? FILE_APPEND | LOCK_EX : LOCK_EX;
 
-        if (!file_put_contents($this->_path, $data, $flags))
+        if (file_put_contents($this->_path, $data, $flags) === false)
             return null;
 
         return $this;
