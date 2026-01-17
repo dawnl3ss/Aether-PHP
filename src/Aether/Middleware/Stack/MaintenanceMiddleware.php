@@ -23,17 +23,17 @@ declare(strict_types=1);
 
 namespace Aether\Middleware\Stack;
 
-use Aether\Http\Response\Format\HttpResponseFormatEnum;
 use Aether\Middleware\MiddlewareInterface;
 
 
 class MaintenanceMiddleware implements MiddlewareInterface {
 
-    /** @var false IN_MAINTENANCE */
-    private const IN_MAINTENANCE = false;
+    /** @var bool IN_MAINTENANCE */
+    private const bool IN_MAINTENANCE = false;
 
     /**
      * @param callable $_next
+     * @return void
      */
     public function _handle(callable $_next){
         if (self::IN_MAINTENANCE){
@@ -46,8 +46,9 @@ class MaintenanceMiddleware implements MiddlewareInterface {
                 ], 503)->_send();
             }
 
-            echo '<h1>403 - Forbidden</h1><p>Website in maintenance.</p>';
-            return;
+            return Aether()->_http()->_response()->_html(
+                '<h1>503 - Forbidden</h1><p>Website in maintenance.</p>', 503
+            )->_send();
         }
 
         $_next();

@@ -24,7 +24,6 @@ declare(strict_types=1);
 namespace Aether\Middleware\Stack;
 
 use Aether\Http\HttpParameterUnpacker;
-use Aether\Http\Response\Format\HttpResponseFormatEnum;
 use Aether\Middleware\MiddlewareInterface;
 use Aether\Security\Token\CsrfToken;
 
@@ -58,8 +57,9 @@ final class CsrfMiddleware implements MiddlewareInterface {
                 ], 403)->_send();
             }
 
-            echo '<h1>403 - Forbidden</h1><p>Invalid CSRF token.</p>';
-            return;
+            return Aether()->_http()->_response()->_html(
+                '<h1>403 - Forbidden</h1><p>Invalid CSRF token.</p>', 403
+            )->_send();
         }
 
         $_next();

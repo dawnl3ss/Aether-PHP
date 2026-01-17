@@ -90,6 +90,5 @@ class HttpResponse implements ResponseInterface {
             $body = json_encode($body);
 
         echo $body;
-        exit;
     }
 }

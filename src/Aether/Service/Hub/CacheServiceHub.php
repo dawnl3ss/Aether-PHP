@@ -10,7 +10,7 @@
  *     ╚═╝  ╚═╝╚══════╝   ╚═╝   ╚═╝  ╚═╝╚══════╝╚═╝  ╚═╝        ╚═╝     ╚═╝  ╚═╝╚═╝
  *
  *                      The divine lightweight PHP framework
- *                   < 1 Mo • Zero dependencies • Pure PHP 8.3+
+ *                  < 1 Mo • Zero dependencies • Pure PHP 8.3+
  *
  *  Built from scratch. No bloat. OOP Embedded.
  *
@@ -21,35 +21,19 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Middleware\Stack;
+namespace Aether\Service\Hub;
+
+use Aether\Cache\Adapter\Apcu;
+use Aether\Cache\Adapter\CacheAdapterEnum;
+use Aether\Cache\CacheFactory;
 
 
-use Aether\Aether;
-use Aether\Http\Response\Format\HttpResponseFormatEnum;
-use Aether\Middleware\MiddlewareInterface;
-
-class AuthMiddleware implements MiddlewareInterface {
-
+final class CacheServiceHub {
 
     /**
-     * @param callable $_next
+     * @return Apcu
      */
-    public function _handle(callable $_next){
-        if (!Aether()->_session()->_isLoggedIn()){
-            http_response_code(403);
-
-            if (str_contains($_SERVER['HTTP_ACCEPT'] ?? '', 'application/json')){
-                return Aether()->_http()->_response()->_json([
-                    "status" => "error",
-                    "message" => "You are not logged in.",
-                ], 403)->_send();
-            }
-
-            return Aether()->_http()->_response()->_html(
-                '<h1>403 - Forbidden</h1><p>You are not logged in.</p>', 403
-            )->_send();
-        }
-
-        $_next();
+    public function _apcu() : Apcu {
+        return CacheFactory::_get(CacheAdapterEnum::APCU);
     }
 }

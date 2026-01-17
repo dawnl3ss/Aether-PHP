@@ -47,6 +47,6 @@ final class SessionServiceHub {
      * @return SessionInstance
      */
     public function _get() : SessionInstance {
-        return SessionInstance::_get()->_getUser();
+        return SessionInstance::_get();
     }
 }

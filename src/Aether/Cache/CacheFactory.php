@@ -24,11 +24,17 @@ declare(strict_types=1);
 namespace Aether\Cache;
 
 use Aether\Cache\Adapter\Apcu;
+use Aether\Cache\Adapter\CacheAdapterEnum;
 
 
 class CacheFactory {
 
-    public static function _get() : CacheInterface {
-        return new Apcu();
+    /**
+     * @param CacheAdapterEnum $_adapter
+     *
+     * @return CacheInterface
+     */
+    public static function _get(CacheAdapterEnum $_adapter) : CacheInterface {
+        return $_adapter->_make();
     }
 }

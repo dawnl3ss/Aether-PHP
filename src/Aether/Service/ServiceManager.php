@@ -23,10 +23,7 @@ declare(strict_types=1);
 
 namespace Aether\Service;
 
-use Aether\Cache\CacheFactory;
-use Aether\Cache\CacheInterface;
-use Aether\Database\DatabaseWrapper;
-use Aether\Database\Drivers\DatabaseDriverEnum;
+use Aether\Service\Hub\CacheServiceHub;
 use Aether\Service\Hub\ConfigServiceHub;
 use Aether\Service\Hub\DatabaseServiceHub;
 use Aether\Service\Hub\HttpServiceHub;
@@ -39,8 +36,8 @@ class ServiceManager {
     /** @var DatabaseServiceHub $_db */
     private DatabaseServiceHub $_db;
 
-    /** @var CacheInterface $_cache */
-    private CacheInterface $_cache;
+    /** @var CacheServiceHub $_cache */
+    private CacheServiceHub $_cache;
 
     /** @var HttpServiceHub $_http */
     private HttpServiceHub $_http;
@@ -57,7 +54,7 @@ class ServiceManager {
 
     public function __construct(){
         $this->_db = new DatabaseServiceHub();
-        $this->_cache = CacheFactory::_get();
+        $this->_cache = new CacheServiceHub();
         $this->_http = new HttpServiceHub();
         $this->_io = new IoServiceHub();
         $this->_config = new ConfigServiceHub();
@@ -72,9 +69,9 @@ class ServiceManager {
     }
 
     /**
-     * @return CacheInterface
+     * @return CacheServiceHub
      */
-    public function _cache() : CacheInterface { return $this->_cache; }
+    public function _cache() : CacheServiceHub { return $this->_cache; }
 
     /**
      * @return HttpServiceHub
