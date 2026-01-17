@@ -35,79 +35,68 @@ final class ControllerGateway {
      * Router => Controller Gateway | & API integration
      */
     public static function _link() : void {
-        $directory = './app/App/Controller/*.php';
-        $controllerFiles = glob($directory);
         $router = new Router();
 
-        foreach ($controllerFiles as $file){
-            $class_name = 'App\Controller\\' . pathinfo($file, PATHINFO_FILENAME);
+        # - Scan for view controllers
+        self::_scanForController("./app/App/Controller/*.php",  "App\Controller\\", $router);
 
-            try {
-                $reflection = new ReflectionClass($class_name);
-            } catch (ReflectionException $e){
-                echo "[ControllerGateway] - ERROR - Cannot reflect class $class_name: " . $e->getMessage();
-                continue;
-            }
-
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
-                $doc = $method->getDocComment();
-                if (!$doc) continue;
-
-                $method_type = self::extractAnnotation($doc, 'method');
-                $route = self::extractAnnotation($doc, 'route');
-
-                if (!$method_type || !$route){
-                    echo "[ControllerGateway] - ERROR - Wrong PHP Doc for {$class_name} Controller, method {$method->getName()}";
-                    continue;
-                }
-
-                $router->_addRoute(strtoupper($method_type), $route, "{$class_name}@{$method->getName()}");
-            }
-        }
-
-        $directory = './app/App/Controller/Api/*.php';
-        $controllerFiles = glob($directory);
-
-        foreach ($controllerFiles as $file){
-            $class_name = 'App\Controller\Api\\' . pathinfo($file, PATHINFO_FILENAME);
-
-            try {
-                $reflection = new ReflectionClass($class_name);
-            } catch (ReflectionException $e){
-                echo "[ControllerGateway] - ERROR - Cannot reflect class $class_name: " . $e->getMessage();
-                continue;
-            }
-
-            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
-                $doc = $method->getDocComment();
-                if (!$doc) continue;
-
-                $method_type = self::extractAnnotation($doc, 'method');
-                $route = self::extractAnnotation($doc, 'route');
-
-                if (!$method_type || !$route){
-                    echo "[ControllerGateway] - ERROR - Wrong PHP Doc for {$class_name} Controller, method {$method->getName()}";
-                    continue;
-                }
-
-                $router->_addRoute(strtoupper($method_type), $route, "{$class_name}@{$method->getName()}");
-            }
-        }
+        # - Scan for api controllers
+        self::_scanForController("./app/App/Controller/Api/*.php",  "App\Controller\Api\\", $router);
 
         $router->_run();
     }
 
     /**
+     * Scan the directory to attribute each route to the provided controller
      *
+     * @param string $_dir
+     * @param string $_namespace
+     * @param Router $_router
      *
-     * @param string $docComment
+     * @return void
+     */
+    private static function _scanForController(string $_dir, string $_namespace, Router $_router) : void {
+        $controllerFiles = glob($_dir);
+
+        foreach ($controllerFiles as $file){
+            $class_name = $_namespace . pathinfo($file, PATHINFO_FILENAME);
+
+            # - We use ReflectionClass to analyze each file
+            try {
+                $reflection = new ReflectionClass($class_name);
+            } catch (ReflectionException $e){
+                echo "[ControllerGateway] - ERROR - Cannot reflect class $class_name: " . $e->getMessage();
+                continue;
+            }
+
+            foreach ($reflection->getMethods(ReflectionMethod::IS_PUBLIC) as $method){
+                $doc = $method->getDocComment();
+                if (!$doc) continue;
+
+                # - We gather the 'Method' and 'Route' phpdoc annotations
+                $method_type = self::_extractAnnotation($doc, 'method');
+                $route = self::_extractAnnotation($doc, 'route');
+
+                if (!$method_type || !$route){
+                    echo "[ControllerGateway] - ERROR - Wrong PHP Doc for {$class_name} Controller, method {$method->getName()}";
+                    continue;
+                }
+
+                $_router->_addRoute(strtoupper($method_type), $route, "{$class_name}@{$method->getName()}");
+            }
+        }
+    }
+
+    /**
+     * Regexp to exract wanted data from phpdoc
      *
-     * @param string $annotation
+     * @param string $_docComment
+     * @param string $_annotation
      *
      * @return string|null
      */
-    private static function extractAnnotation(string $docComment, string $annotation) : ?string {
-        if (preg_match("/\\[@{$annotation}\\]\\s*=>\\s*(\\S+)/", $docComment, $matches))
+    private static function _extractAnnotation(string $_docComment, string $_annotation) : ?string {
+        if (preg_match("/\\[@{$_annotation}\\]\\s*=>\\s*(\\S+)/", $_docComment, $matches))
             return $matches[1];
 
         return null;
