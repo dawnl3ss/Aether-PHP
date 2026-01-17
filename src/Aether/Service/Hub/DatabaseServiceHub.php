@@ -21,78 +21,48 @@
 */
 declare(strict_types=1);
 
-namespace Aether\Service;
+namespace Aether\Service\Hub;
 
-use Aether\Cache\CacheFactory;
-use Aether\Cache\CacheInterface;
 use Aether\Database\DatabaseWrapper;
 use Aether\Database\Drivers\DatabaseDriverEnum;
-use Aether\Service\Hub\ConfigServiceHub;
-use Aether\Service\Hub\DatabaseServiceHub;
-use Aether\Service\Hub\HttpServiceHub;
-use Aether\Service\Hub\IoServiceHub;
-use Aether\Service\Hub\SessionServiceHub;
 
 
-class ServiceManager {
+final class DatabaseServiceHub {
 
-    /** @var DatabaseServiceHub $_db */
-    private DatabaseServiceHub $_db;
+    /** @var DatabaseWrapper[] $_databases */
+    private array $_databases = [];
 
-    /** @var CacheInterface $_cache */
-    private CacheInterface $_cache;
-
-    /** @var HttpServiceHub $_http */
-    private HttpServiceHub $_http;
-
-    /** @var IoServiceHub $_io */
-    private IoServiceHub $_io;
-
-    /** @var ConfigServiceHub $_config */
-    private ConfigServiceHub $_config;
-
-    /** @var SessionServiceHub $_session */
-    private SessionServiceHub $_session;
-
-
-    public function __construct(){
-        $this->_db = new DatabaseServiceHub();
-        $this->_cache = CacheFactory::_get();
-        $this->_http = new HttpServiceHub();
-        $this->_io = new IoServiceHub();
-        $this->_config = new ConfigServiceHub();
-        $this->_session = new SessionServiceHub();
+    /**
+     * @param string $_dbname
+     *
+     * @return DatabaseWrapper
+     */
+    public function _mysql(string $_dbname) : DatabaseWrapper {
+        return $this->_createConn($_dbname, DatabaseDriverEnum::MYSQL);
     }
 
     /**
-     * @return DatabaseServiceHub
+     * @param string $_dbname
+     *
+     * @return DatabaseWrapper
      */
-    public function _db() : DatabaseServiceHub {
-        return $this->_db;
+    public function _sqlite(string $_dbname) : DatabaseWrapper {
+        return $this->_createConn($_dbname, DatabaseDriverEnum::SQLITE);
     }
 
     /**
-     * @return CacheInterface
+     * Internal functions to cache database connections
+     *
+     * @param string $_dbname
+     * @param DatabaseDriverEnum $_driver
+     *
+     * @return DatabaseWrapper
      */
-    public function _cache() : CacheInterface { return $this->_cache; }
+    private function _createConn(string $_dbname, DatabaseDriverEnum $_driver) : DatabaseWrapper {
+        if (isset($this->_databases[$_driver->value . '_' . $_dbname]))
+            return $this->_databases[$_driver->value . '_' . $_dbname];
 
-    /**
-     * @return HttpServiceHub
-     */
-    public function _http() : HttpServiceHub { return $this->_http; }
-
-    /**
-     * @return IoServiceHub
-     */
-    public function _io() : IoServiceHub { return $this->_io; }
-
-    /**
-     * @return ConfigServiceHub
-     */
-    public function _config() : ConfigServiceHub { return $this->_config; }
-
-    /**
-     * @return SessionServiceHub
-     */
-    public function _session() : SessionServiceHub { return $this->_session; }
+        $this->_databases[$_driver->value . '_' . $_dbname] = $conn = new DatabaseWrapper($_dbname, $_driver);
+        return $conn;
+    }
 }
