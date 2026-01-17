@@ -31,9 +31,19 @@ class CliLogger {
      * @param string $_text
      * @param CliColorEnum $_color
      *
+     * @return void
      */
     public function _echo(string $_text, CliColorEnum $_color){
         echo $_color->_paint($_text) . PHP_EOL;
+    }
+
+    /**
+     * @param string $_text
+     *
+     * @return void
+     */
+    public function _error(string $_text){
+        die(CliColorEnum::FG_RED->_paint($_text) . PHP_EOL);
     }
 
     /**

@@ -26,6 +26,9 @@ namespace Aether\Modules;
 
 abstract class ModuleFactory {
 
+    /** @var array $_modules */
+    private static array $_modules = [];
+
 
     /**
      * Function triggered when Aether Core is initialized
@@ -44,6 +47,17 @@ abstract class ModuleFactory {
             }
             $class->_onLoad();
         }
+
+        self::$_modules = array_merge(self::$_modules, $_modules);
+    }
+
+    /**
+     * @param string $_class
+     *
+     * @return bool
+     */
+    public static function _isLoaded(string $_class) : bool {
+        return in_array($_class, self::$_modules);
     }
 
     /**

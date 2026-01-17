@@ -35,6 +35,8 @@ use Aether\Modules\AetherCLI\Kernel as CliKernel;
 # - .Env File load
 ProjectConfig::_load();
 
+include "src/Aether/Utils/CoreHelperFunctions.php";
+
 # - Modules load
 ModuleFactory::_load([
     CliKernel::class

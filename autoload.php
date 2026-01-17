@@ -51,4 +51,11 @@ spl_autoload_register(function ($class){
         $file = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
         if (file_exists($file)) return require_once $file;
     }
+
+    # - Scripts folder
+    if (str_starts_with($class, 'bin\\')) {
+        $file = __DIR__ . '/' . str_replace('\\', '/', $class) . '.php';
+        if (file_exists($file)) return require_once $file;
+    }
+
 });

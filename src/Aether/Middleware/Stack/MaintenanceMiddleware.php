@@ -29,7 +29,7 @@ use Aether\Middleware\MiddlewareInterface;
 class MaintenanceMiddleware implements MiddlewareInterface {
 
     /** @var bool IN_MAINTENANCE */
-    private const bool IN_MAINTENANCE = false;
+    private const bool IN_MAINTENANCE = true;
 
     /**
      * @param callable $_next

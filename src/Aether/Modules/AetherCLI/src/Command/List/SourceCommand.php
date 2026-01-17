@@ -55,17 +55,18 @@ class SourceCommand extends Command {
             if (strtolower(pathinfo($script, PATHINFO_EXTENSION)) !== 'php')
                 die(CliColorEnum::FG_RED->_paint("[SourceCommand] - Error - Source file '{$script}' needs to be a php file.") . PHP_EOL);
 
-            $script = new $script();
+            $fullClass = str_replace('/', "\\", preg_replace('/\.[^.]+$/', '', $script));
+            $script = new $fullClass();
 
             if (!$script instanceof BaseScript)
-                die($this->_echo("[SourceCommand] - Error - Provided script must be an instance of AetherCLI/Script/BaseScript.", CliColorEnum::FG_RED));
+                die(CliColorEnum::FG_RED->_paint("[SourceCommand] - Error - Provided script must be an instance of AetherCLI/Script/BaseScript."));
 
             $script->_onLoad();
 
             if (!$script->_onRun())
-                die("[SourceCommand] - Error - _onRun() function contains error. You may fix it before running.");
+                $this->_error("[SourceCommand] - Error - _onRun() function contains error. You may fix it before running.");
 
-            echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[SourceCommand] - Successfully imported source file '{$script}'.") . PHP_EOL;
+            echo CliColorEnum::FG_BRIGHT_GREEN->_paint("[SourceCommand] - Successfully imported source file '{$fullClass}'.") . PHP_EOL;
         } else if ($_prototype === "db"){
 
         }
